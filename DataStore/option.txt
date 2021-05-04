@@ -1,0 +1,620 @@
+1/1/Canada
+1/2/Mexico
+1/3/Ireland
+1/4/France
+2/1/London
+2/2/Paris
+2/3/Berlin
+2/4/Madrid
+3/1/Mercury
+3/2/Earth
+3/3/Mars
+3/4/Venus
+4/1/Kits
+4/2/Cubs
+4/3/Pups
+4/4/Kittens
+5/1/Mango
+5/2/Grape
+5/3/Apple
+5/4/Banana
+6/1/Cherry Blossom
+6/2/Lilly
+6/3/Rose
+6/4/Dandelion
+7/1/365
+7/2/360
+7/3/370
+7/4/375
+8/1/Athens
+8/2/Rome
+8/3/Paris
+8/4/London
+9/1/Manchester United
+9/2/Liverpool
+9/3/Everton
+9/4/Leeds United
+10/1/Central Perk
+10/2/Cafe Central
+10/3/Central Coffee
+10/4/Deluxe Cafe
+11/1/New Zealand
+11/2/Canada
+11/3/Australia
+11/4/United States
+12/1/32
+12/2/30
+12/3/34
+12/4/28
+13/1/Miss Trunchbull
+13/2/Miss Honey
+13/3/Miss Lavender
+13/4/Miss Wormwood
+14/1/Call of Duty
+14/2/Medal Of Honor
+14/3/Battlefield
+14/4/Sniper Elite
+15/1/The French Open
+15/2/Wimbledon
+15/3/The US Open
+15/4/The Australian Open
+16/1/Venus
+16/2/Mars
+16/3/Mercury
+16/4/Earth
+17/1/238,000
+17/2/224,000
+17/3/234,000
+17/4/242,000
+18/1/Nautical Mile
+18/2/Kilometre
+18/3/Mile
+18/4/Yard
+19/1/Augusta National Golf Club
+19/2/Whistling Straits
+19/3/Cypress Point Club
+19/4/TPC Sawgrass
+20/1/Irn-Bru
+20/2/Ginger Ale
+20/3/Root Beer
+20/4/Cola
+21/1/Portuguese
+21/2/Spanish
+21/3/French
+21/4/English
+22/1/Red
+22/2/Yellow
+22/3/Blue
+22/4/Black
+23/1/Leaf
+23/2/Stem
+23/3/Root
+23/4/Flower
+24/1/Wellington
+24/2/Auckland
+24/3/Christchurch
+24/4/Dunedin
+25/1/Brussels
+25/2/Amsterdam
+25/3/Berlin
+25/4/Budapest
+26/1/0
+26/2/5
+26/3/10
+26/4/15
+27/1/Indian
+27/2/Atlantic
+27/3/Arctic7
+27/4/Tasman
+28/1/Cheetah
+28/2/Lion
+28/3/Leopard
+28/4/Springbok
+29/1/Scotland
+29/2/Ireland
+29/3/England
+29/4/Wales
+30/1/Washington D.C.
+30/2/New York City
+30/3/Los Angeles
+30/4/Chicago
+31/1/White
+31/2/Yellow
+31/3/Black
+31/4/Green
+32/1/Santiago
+32/2/Buenos Aries
+32/3/Bogota
+32/4/Brasilia
+33/1/Russia
+33/2/United States
+33/3/Canada
+33/4/China
+34/1/River Nile
+34/2/Mississippi River
+34/3/Amazon River
+34/4/Yangtze
+35/1/Corona
+35/2/Heineken
+35/3/Carlsberg
+35/4/Budweiser
+36/1/80
+36/2/60
+36/3/70
+36/4/90
+37/1/Helium
+37/2/Hydrogen
+37/3/Holmium
+37/4/Indium
+38/1/Kangaroo
+38/2/Koala
+38/3/Crocodile
+38/4/Wallaby
+39/1/Ottawa
+39/2/Montreal
+39/3/Vancouver
+39/4/Toronto
+40/1/English
+40/2/Spanish
+40/3/Arabic
+40/4/Mandarin
+41/1/Toy Story
+41/2/Monsters, Inc.
+41/3/Up
+41/4/Cars
+42/1/Warsaw
+42/2/Berlin
+42/3/Minsk
+42/4/Budapest
+43/1/Blue
+43/2/Pink
+43/3/Red
+43/4/Yellow
+44/1/14
+44/2/7
+44/3/10
+44/4/12
+45/1/Morse Code
+45/2/Fax
+45/3/Phone
+45/4/Email
+46/1/Tennessee
+46/2/Kentucky
+46/3/Texas
+46/4/Georgia
+47/1/Queen’s Park Rangers
+47/2/Fulham
+47/3/Chelsea
+47/4/West Ham United
+48/1/6
+48/2/3
+48/3/7
+48/4/9
+49/1/Sean Combs
+49/2/Sean John
+49/3/Shaun Carter
+49/4/Shaun Jackson
+50/1/Red
+50/2/Blue
+50/3/Green
+50/4/Yellow
+51/1/Canberra
+51/2/Sydney
+51/3/Melbourne
+51/4/Brisbane
+52/1/Helsinki
+52/2/Copenhagen
+52/3/Stockholm
+52/4/Oslo
+53/1/100
+53/2/50
+53/3/150
+53/4/200
+54/1/Woody
+54/2/Buzz
+54/3/Andy
+54/4/Jesse
+55/1/Tesla
+55/2/Microsoft
+55/3/Apple
+55/4/Nike
+56/1/Lebanon
+56/2/Jordan
+56/3/Yemen
+56/4/UAE
+57/1/0
+57/2/1
+57/3/2
+57/4/3
+58/1/Koala
+58/2/Kangaroo
+58/3/Wombat
+58/4/Wallaby
+59/1/Spain
+59/2/Portugal
+59/3/Italy
+59/4/France
+60/1/District of Columbia
+60/2/District of Carolina
+60/3/District of Connecticut
+60/4/District of Columbus
+61/1/Statue of Liberty
+61/2/Eiffel Tower
+61/3/Mt Rushmore
+61/4/Tower of Pisa
+62/1/Basketball
+62/2/Wrestling
+62/3/Football
+62/4/Baseball
+63/1/Vatican City
+63/2/Malta
+63/3/Lesotho
+63/4/Panama
+64/1/E
+64/2/O
+64/3/I
+64/4/A
+65/1/Africa
+65/2/Asia
+65/3/South America
+65/4/North America
+66/1/1869
+66/2/1884
+66/3/1922
+66/4/1935
+67/1/Reykjavík
+67/2/Stockholm
+67/3/Tallinn
+67/4/Copenhagen
+68/1/Four
+68/2/One
+68/3/Two
+68/4/Three
+69/1/1.6
+69/2/1
+69/3/1.2
+69/4/2
+70/1/13
+70/2/10
+70/3/15
+70/4/17
+71/1/Andes
+71/2/Himalayas
+71/3/Rocky Mountains
+71/4/Southern Great Escarpment
+72/1/Harry Potter
+72/2/Twilight
+72/3/The Hunger Games
+72/4/The Kite Runner
+73/1/Snow White
+73/2/Pinocchio
+73/3/Bambi
+73/4/Fantasia
+74/1/Mexico
+74/2/Costa Rica
+74/3/Guatemala
+74/4/Dominican Republic
+75/1/Mount Kilimanjaro
+75/2/Mount Kenya
+75/3/Mount Stanley
+75/4/Mount Speke
+76/1/1989
+76/2/1984
+76/3/1987
+76/4/1991
+77/1/CS Lewis
+77/2/J. K. Rowling
+77/3/J. R. R. Tolkien
+77/4/Roald Dahl
+78/1/Krone
+78/2/Kuna
+78/3/Euro
+78/4/Pound Sterling
+79/1/Time
+79/2/Temporary
+79/3/Temptation
+79/4/Temparature
+80/1/China
+80/2/United States
+80/3/Russia
+80/4/Canada
+81/1/5
+81/2/3
+81/3/4
+81/4/6
+82/1/New York
+82/2/Massachusetts
+82/3/Pennsylvania
+82/4/Florida
+83/1/Dong
+83/2/Kip
+83/3/Baht
+83/4/Kyat
+84/1/Olaf
+84/2/Pat
+84/3/Alex
+84/4/Freddy
+85/1/Saturn
+85/2/Mars
+85/3/Jupiter
+85/4/Neptune
+86/1/Peter Andre
+86/2/Lionel Richie
+86/3/Billy Ocean
+86/4/George Benson
+87/1/Kentucky
+87/2/Alabama
+87/3/Mississippi
+87/4/Louisiana
+88/1/Plants
+88/2/Trees
+88/3/Animals
+88/4/Weather
+89/1/206
+89/2/201
+89/3/202
+89/4/205
+90/1/Ginger
+90/2/Black
+90/3/Blonde
+90/4/Brunette
+91/1/Belfast
+91/2/Cardiff
+91/3/London
+91/4/Edinburg
+92/1/Nevada
+92/2/Utah
+92/3/California
+92/4/Arizona
+93/1/South America
+93/2/Africa
+93/3/Asia
+93/4/North America
+94/1/Ben Nevis
+94/2/Scafell Pike
+94/3/Snowdon
+94/4/Pen y Fan
+95/1/Cuba
+95/2/Japan
+95/3/Mexico
+95/4/South Korea
+96/1/Rice
+96/2/Beans
+96/3/Wheat
+96/4/Rye
+97/1/France
+97/2/Belgium
+97/3/United States
+97/4/Switzerland
+98/1/Leonardo da Vinci
+98/2/Pablo Picasso
+98/3/Vincent van Gogh
+98/4/Michelangelo
+99/1/New York
+99/2/London
+99/3/Milan
+99/4/Paris
+100/1/Switzerland
+100/2/France
+100/3/Spain
+100/4/Croatia
+101/1/118
+101/2/120
+101/3/122
+101/4/124
+102/1/Sweden
+102/2/Finland
+102/3/Denmark
+102/4/Iceland
+103/1/Maroon 5
+103/2/Backstreet Boys
+103/3/NSYNC
+103/4/Boyz II Men
+104/1/Blue Ribbon Sports
+104/2/Performance Sports
+104/3/Victorious Sports
+104/4/Alpha Sports
+105/1/Hamlet
+105/2/Julius Caesar
+105/3/Macbeth
+105/4/Romeo and Juliet
+106/1/Q
+106/2/X
+106/3/Y
+106/4/U
+107/1/4
+107/2/3
+107/3/5
+107/4/7
+108/1/Iago
+108/2/Desdemona
+108/3/Roderigo
+108/4/Cassio
+109/1/Netherlands
+109/2/Iceland
+109/3/Belgium
+109/4/Denmark
+110/1/4
+110/2/2
+110/3/3
+110/4/5
+111/1/Berlin
+111/2/Rome
+111/3/Athens
+111/4/Madrid
+112/1/Vodka
+112/2/Whiskey
+112/3/Rum
+112/4/Gin
+113/1/44
+113/2/40
+113/3/42
+113/4/46
+114/1/7
+114/2/3
+114/3/5
+114/4/9
+115/1/92
+115/2/80
+115/3/84
+115/4/88
+116/1/3
+116/2/1
+116/3/2
+116/4/4
+117/1/Alexander Fleming
+117/2/Albert Einstein
+117/3/Isaac Newton
+117/4/Thomas Edison
+118/1/Double Helix
+118/2/Double Circle
+118/3/Double Hexagon
+118/4/Double Square
+119/1/20
+119/2/10
+119/3/15
+119/4/25
+120/1/Harp
+120/2/Piano
+120/3/Organ
+120/4/Clarinet
+121/1/Coast Redwood
+121/2/Yellow Meranti
+121/3/Mountain Ash
+121/4/Coast Douglas-fir
+122/1/Ostia
+122/2/Naples
+122/3/Medina
+122/4/Venice
+123/1/Australia
+123/2/China
+123/3/Canada
+123/4/United States
+124/1/Skin
+124/2/Legs
+124/3/Arms
+124/4/Head
+125/1/Four
+125/2/Three
+125/3/Five
+125/4/Six
+126/1/Almonds
+126/2/Peanuts
+126/3/Macadamia
+126/4/Brazilian
+127/1/Blue Whale
+127/2/Elephant
+127/3/Giraffe
+127/4/Colossal Squid
+128/1/James McAvoy
+128/2/Daniel Craig
+128/3/Jamie Dornan
+128/4/Michael Sheen
+129/1/The Burrow
+129/2/The Fort
+129/3/The Windmill
+129/4/The Bastion
+130/1/11
+130/2/5
+130/3/8
+130/4/10
+131/1/Incan
+131/2/Aztec
+131/3/Egyptian
+131/4/Roman
+132/1/Constantinople
+132/2/Ankara
+132/3/Izmir
+132/4/Antalya
+133/1/Mariana Trench
+133/2/Tonga Trench
+133/3/Philippine Trench
+133/4/Kuril- Kamchatka Trench
+134/1/88
+134/2/78
+134/3/98
+134/4/108
+135/1/Mediterranean Sea
+135/2/Black Sea
+135/3/Baltic Sea
+135/4/North-east Atlantic Ocean
+136/1/Medusa
+136/2/Cerberus
+136/3/Hydra
+136/4/Typhon
+137/1/Orchids
+137/2/Tulip
+137/3/Lily
+137/4/Hyacinth
+138/1/Knee
+138/2/Hand
+138/3/Foot
+138/4/Elbow
+139/1/Tin
+139/2/Strontium
+139/3/Tantalum
+139/4/Selenium
+140/1/3
+140/2/2
+140/3/4
+140/4/5
+141/1/99.94
+141/2/97.98
+141/3/100.15
+141/4/98.99
+142/1/Netherlands
+142/2/Switzerland
+142/3/Belgium
+142/4/France
+143/1/Naples
+143/2/Rome
+143/3/Milan
+143/4/Venice
+144/1/5
+144/2/1
+144/3/3
+144/4/7
+145/1/Tongue
+145/2/Finger
+145/3/Nose
+145/4/Toes
+146/1/Ear
+146/2/Nose
+146/3/Chin
+146/4/Fingers
+147/1/1982
+147/2/1980
+147/3/1984
+147/4/1986
+148/1/1999
+148/2/1997
+148/3/1998
+148/4/2000
+149/1/Fermentation
+149/2/Desalination
+149/3/Mitosis
+149/4/Germination
+150/1/Right Ventricle
+150/2/Left Ventricle
+150/3/Left Atria
+150/4/Right Atria
+151/1/Helen of Troy
+151/2/Hercules
+151/3/William the Conqueror
+151/4/Achilles
+152/1/Jazz
+152/2/Blues
+152/3/Classical
+152/4/Funk
+153/1/Francis Drake
+153/2/James Cook
+153/3/Christopher Columbus
+153/4/Marco Polo
+154/1/Entomophobia
+154/2/Astraphobia
+154/3/Hydrophobia
+154/4/Cynophobia
+155/1/Coffee
+155/2/Rice
+155/3/Wheat
+155/4/Beans
