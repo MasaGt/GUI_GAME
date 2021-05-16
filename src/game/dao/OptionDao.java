@@ -6,11 +6,8 @@
 package game.dao;
 
 import game.entity.OptionDto;
-import game.util.Const;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,51 +17,44 @@ import java.util.logging.Logger;
  * Data Acess Object for a option file.
  * @author Masaomi
  */
-public class OptionDao implements IOptionDao {
+public class OptionDao extends DBAccessor implements IOptionDao {
 
-    private final String FILE_PATH;
+//    private Product db;
 
     public OptionDao() {
-        this.FILE_PATH = "./DataStore/option.txt";
+//        Factory factory = new DBFactory();
+//        this.db = factory.create();
     }
-
+    
+    /**
+     * Get options corresponding to the passed level from OPTIONS table.
+     * @param id
+     * @return 
+     */
     @Override
     public List<OptionDto> getById(int id) {
 
-        BufferedReader br = null;
+        Product db = open();
+        
         List<OptionDto> options = new ArrayList<>();
-
+        ResultSet rs = db.executeSelect("SELECT * FROM OPTIONS WHERE QUIZ_ID = " + id);
         try {
-            File file = new File(FILE_PATH);
-            br = new BufferedReader(new FileReader(file));
-            String line = "";
-
-            while ((line = br.readLine()) != null) {
-                String[] props = line.split(Const.DELIMITER);
-
-                //get options whihc has the passed quiz_id
-                if (id == Integer.parseInt(props[0].trim())) {
-                    OptionDto option = new OptionDto();
-                    option.setQuizId(Integer.parseInt(props[0].trim()));
-                    option.setId(Integer.parseInt(props[1].trim()));
-                    option.setStatement(props[2]);
-
-                    options.add(option);
-                }
+            while (rs.next()) {
+                OptionDto option = new OptionDto();
+                option.setQuizId(rs.getInt("QUIZ_ID"));
+                System.out.print(rs.getInt("QUIZ_ID")+"," );
+                option.setId(rs.getInt("OPTION_ID"));
+                System.out.print(rs.getInt("OPTION_ID")+"," );
+                option.setStatement(rs.getString("STATEMENT"));
+                System.out.println(rs.getString("STATEMENT"));
+                options.add(option);
             }
-        } catch (IOException | NumberFormatException ex) {
-            Logger.getLogger(QuizDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(OptionDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-
-            } catch (IOException ex) {
-                Logger.getLogger(OptionDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            close(db);
         }
-
+        
         return options;
     }
 

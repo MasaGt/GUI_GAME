@@ -6,12 +6,8 @@
 package game.dao;
 
 import game.entity.QuizDto;
-import game.util.Const;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,58 +15,44 @@ import java.util.logging.Logger;
 
 /**
  * Data Acess Object for a quiz file.
+ *
  * @author Masaomi
  */
-public class QuizDao implements IQuizDao {
+public class QuizDao extends DBAccessor implements IQuizDao {
 
-    private final String FILE_PATH;
-
-    public QuizDao() {
-        this.FILE_PATH = "./DataStore/quiz.txt";
-    }
+//    private Product db;
+//
+//    public QuizDao() {
+//        Factory factory = new DBFactory();
+//        this.db = factory.create();
+//    }
 
     /**
      * Read quizes by specified level
+     *
      * @param level
-     * @return 
+     * @return
      */
     @Override
     public List<QuizDto> getByLevel(int level) {
-        BufferedReader br = null;
 
+        Product db = open();
         List<QuizDto> quizes = new ArrayList<>();
+        ResultSet rs = db.executeSelect("SELECT * FROM QUIZES WHERE LEVEL =" + level);
 
         try {
-            File file = new File(FILE_PATH);
-            br = new BufferedReader(new FileReader(file));
-
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] props = line.split(Const.DELIMITER);
-
-                if (level == Integer.parseInt(props[3].trim())) {
-                    QuizDto quiz = new QuizDto();
-                    quiz.setId(Integer.parseInt(props[0].trim()));
-                    quiz.setStatement(props[1]);
-                    quiz.setAnswer(Integer.parseInt(props[2].trim()));
-                    quizes.add(quiz);
-                }
+            while (rs.next()) {
+                QuizDto quiz = new QuizDto();
+                quiz.setId(rs.getInt("ID"));
+                quiz.setStatement(rs.getString("STATEMENT"));
+                quiz.setAnswer(rs.getInt("ANSWER"));
+                quizes.add(quiz);
             }
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(QuizDao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException | NumberFormatException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(QuizDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(QuizDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            close(db);
         }
-
         return quizes;
     }
 
