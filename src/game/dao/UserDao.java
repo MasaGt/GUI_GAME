@@ -6,10 +6,8 @@
 package game.dao;
 
 import game.entity.Player;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,13 +18,6 @@ import java.util.logging.Logger;
  */
 public class UserDao extends DBAccessor implements IUserDao {
 
-//    private Product db;
-
-//    public UserDao() {
-//        Factory factory = new DBFactory();
-//        this.db = factory.create();
-//    }
-
     /**
      * Register a player info to Players table.
      *
@@ -35,7 +26,6 @@ public class UserDao extends DBAccessor implements IUserDao {
     @Override
     public void regiter(Player player) {
         Product db = open();
-        System.out.println("INSERT INTO PLAYERS VALUES (" + player.getId() + ", '" + player.getName() + "')");
         db.executeUpdate("INSERT INTO PLAYERS VALUES (" + player.getId() + ", '" + player.getName() + "')");
         close(db);
     }

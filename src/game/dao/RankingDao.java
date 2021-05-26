@@ -40,6 +40,7 @@ public class RankingDao extends DBAccessor implements IRankingDao {
                 rank.setPlayerId(rs.getInt("PLAYER_ID"));
                 rank.setName(rs.getString("PLAYER_NAME"));
                 rank.setScore(rs.getInt("SCORE"));
+                rankings.add(rank);
             }
 
             return rankings;
