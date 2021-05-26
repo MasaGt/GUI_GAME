@@ -6,22 +6,35 @@
 package game.service;
 
 import game.entity.Player;
-import game.entity.QuizInfo;
 import game.util.Prize;
+import java.util.Observable;
 
 /**
- *
+ * This class is to plat a role in the judge.
  * @author Masaomi
  */
-public class JudgeService {
+public class JudgeService extends Observable {
+
+    /**
+     * Judge if player's ansert is correct or not.
+     * @param answer correct option id
+     * @param input the option id which a player selected.
+     * @return true if player's input is correct. Otherwise, false.
+     */
+    public boolean judge(int answer, int input) {
+        setChanged();
+        boolean result = answer == input;
+        
+        notifyObservers(result);
+        return result;
+    }
     
-    public boolean judge(int answer, int input, Player player, int round) {
-        if (answer == input) {
-            //TODO enumを使って、インクリメンタルにスコアを上げていく方法を考える
-            player.setScore(Prize.getPrizeFor(round));
-            return true;
-        } else {
-            return false;
-        }
+    /**
+     * calc player's score.
+     * @param player
+     * @param round 
+     */
+    public void calcScore(Player player, int round) {
+        player.setScore(Prize.getPrizeFor(round));
     }
 }

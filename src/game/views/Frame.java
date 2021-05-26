@@ -5,7 +5,7 @@
  */
 package game.views;
 
-import java.awt.Panel;
+import game.views.Panel;
 import javax.swing.JFrame;
 
 /**

@@ -13,25 +13,29 @@ import game.util.Const;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Business Logic about Ranking.
  * @author Masaomi
  */
-public class RankingService {
+public class RankingService extends Observable {
 
     /**
      * Get all the ranking
-     * @return list of rankingDto
      */
-    public List<RankingDto> getRanking() {
+    public void getRanking() {
         IRankingDao dao = new RankingDao();
         List<RankingDto> ranking = dao.getAll();
-        return ranking;
+        setChanged();
+        notifyObservers(ranking);
     }
 
-    //Register Ranking if player's score in the ranking.
-    //Otherwise, skip registering.
+    /**
+     * Register Ranking if player's score in the ranking.
+     * Otherwise, skip registering.
+     * @param player 
+     */
     public void registerToRanking(Player player) {
         IRankingDao dao = new RankingDao();
         List<RankingDto> ranking = dao.getAll();
