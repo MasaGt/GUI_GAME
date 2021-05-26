@@ -24,6 +24,8 @@ import game.views.RegisterView;
 import game.views.EndingView;
 import game.views.ResultView;
 import game.views.StartView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,7 +34,7 @@ import java.util.Scanner;
  *
  * @author Masaomi
  */
-public class GameController {
+public class GameController implements ActionListener {
 
     private Player player;
     private int round;
@@ -219,5 +221,10 @@ public class GameController {
      */
     public boolean isGameFinished() {
         return this.isFinished;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

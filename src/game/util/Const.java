@@ -17,4 +17,20 @@ public class Const {
     public static final String DELIMITER = "/";
     public static final int RANKING_RECORD_LIMIT = 10;
     public static final int THE_NUMBER_OF_QUIZ_PER_LEVEL = FINAL_ROUND / Level.values().length;
+    
+    //the name of components
+    public static final String NEW_GAME_BUTTON = "New game";
+    public static final String CONTINUE_BUTTON = "Continue";
+    public static final String START_BUTTON = "Start";
+    public static final String RANKING_BUTTON = "Ranking";
+    public static final String REGISTER_BUTTON = "Register";
+    public static final String CLOSE_BUTTON = "Close";
+    public static final String QUIT_BUTTON = "Quit";
+    public static final String OPTION1_BUTTON = "1";
+    public static final String OPTION2_BUTTON = "2";
+    public static final String OPTION3_BUTTON = "3";
+    public static final String OPTION4_BUTTON = "4";
+    public static final String AUDIENCE = "Audience";
+    public static final String TELEPHONE = "Telephone";
+    public static final String FIFTY_FIFTY = "50/50";
 }
