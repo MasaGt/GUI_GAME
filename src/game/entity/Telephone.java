@@ -25,7 +25,8 @@ public class Telephone extends Lifeline {
         if (!this.getIsAvailable()) {
             return;
         }
-
+        
+        String msg = "Friend: I guess the answer is ";
         int correctOptionId = quiz.getQuiz().getAnswer();
         String correctOption = "";
         for (OptionDto option : quiz.getOption()) {
@@ -34,7 +35,10 @@ public class Telephone extends Lifeline {
                 break;
             }
         }
-        System.out.println("Friend: I guess the answer is " + correctOption);
+        
+        msg += correctOption;
+        setChanged();
+        notifyObservers(msg);
     }
 
 }
