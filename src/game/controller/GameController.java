@@ -8,216 +8,202 @@ package game.controller;
 import game.entity.Lifeline;
 import game.entity.Player;
 import game.entity.QuizInfo;
-import game.entity.RankingDto;
+import game.entity.QuizManager;
 import game.service.JudgeService;
-import game.service.LifelineService;
 import game.service.PlayerRegisterService;
 import game.service.QuizService;
 import game.service.RankingService;
 import game.util.Const;
 import game.util.Level;
-import game.views.ActionView;
-import game.views.AnswerView;
-import game.views.LifelineView;
-import game.views.QuizView;
-import game.views.RegisterView;
-import game.views.EndingView;
-import game.views.ResultView;
-import game.views.StartView;
+import game.views.Frame;
+import game.views.MainFrame;
+import game.views.Panel;
+import game.views.QuizPanel;
+import game.views.RankingPanel;
+import game.views.RegisterPanel;
+import game.views.StartPanel;
+import game.views.SubFrame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Observer;
 
 /**
  * Controller for the game,
  *
  * @author Masaomi
  */
-public class GameController {
+public class GameController implements ActionListener {
 
     private Player player;
     private int round;
     private Level level;
     private boolean isExited;
     private boolean isFinished;
-    private Scanner scanner;
+    private Frame mainDisplay;
+    private Frame subDisplay;
 
     /**
      * Contructor
-     *
-     * @param scanner
      */
-    public GameController(Scanner scanner) {
-        this.scanner = scanner;
+    public GameController() {
+        mainDisplay = new MainFrame();
+        subDisplay = new SubFrame();
     }
 
     /**
-     * Init attributes regarding game, then display start view.
+     * Init attributes regarding the game, then display start view.
      */
     public void initGame() {
-        this.round = 1;
-        this.level = Level.VERY_EASY;
-        this.isExited = false;
-        this.isFinished = false;
-
-        RankingService service = new RankingService();
-        List<RankingDto> ranking = service.getRanking();
-        StartView startView = new StartView(ranking);
-    }
-
-    /**
-     * Ask player's name and innitialize player information.
-     */
-    public void registerPlayer() {
-        if (this.player == null) {
-            RegisterView view = new RegisterView();
-            String name = view.askName(this.scanner);
-            PlayerRegisterService service = new PlayerRegisterService();
-            int id = service.getNewId();
-            this.player = new Player(name, id);
-        } else {
-            // if player continue a new game, initialize only her/his score, prize, and lifelines.
-            this.player = new Player(this.player.getName(), this.player.getId());
+        round = 1;
+        level = Level.VERY_EASY;
+        isExited = false;
+        isFinished = false;
+        if (player != null) {
+            player.reset();
         }
     }
 
     /**
-     * Display a quiz. Then, forward to the next display which asks a plyer's
-     * action.
+     * Start the game.
      */
-    public void stratQuiz() {
+    public void showStartDisplay() {
+        //set panel to the main display
+        Panel startPanel = new StartPanel(player);
+        setController(startPanel);
+        mainDisplay.setPanel(startPanel);
+
+        mainDisplay.open(500, 600);
+    }
+    
+    private void showRegisterDislpay() {
+        subDisplay.revalidate();
+        Panel panel = new RegisterPanel();
+        setController(panel);
+        subDisplay.setPanel(panel);
+        subDisplay.open(300, 200);
+    }
+
+    private void showQuizDisplay() {
+        Panel panel = new QuizPanel(round);
+        panel.addController(this);
+        mainDisplay.setPanel(panel);
         QuizService service = new QuizService();
-        List<QuizInfo> quizes = service.getQuizes(level.getLevel());
+        service.addObserver((QuizPanel) panel);
+        service.getAllQuizes();
+    }
 
-        QuizView quizView = new QuizView();
+    private int getOptionId(String optionLable) {
+        int selectedOptionId = 0;
+        Panel currentPanel = mainDisplay.getPanel();
+        if (currentPanel instanceof QuizPanel) {
+            selectedOptionId = (int) currentPanel.getParam();
+        }
+        return selectedOptionId;
+    }
 
-        if (!quizes.isEmpty()) {
-            for (int i = 0; i < quizes.size(); i++) {
-                if (!this.isFinished) {
-                    int action;
-                    do {
-                        quizView.displayQuiz(quizes.get(i));
-                        action = askAction(quizes.get(i));
-                    } while (Const.USE_LIFELINE == action);
-                }
-            }
+    private void judge(int answerId, int selectedOpt) {
+
+        JudgeService service = new JudgeService();
+        service.addObserver((Observer) mainDisplay.getPanel());
+
+        if (service.judge(round, selectedOpt)) {
+            service.calcScore(player, round);
         } else {
-            this.isFinished = true;
+            registerData();
         }
-
-        //after finishing 3 quizes at a certain level, the game increases the livel.
-        this.level = Level.getNext(this.level);
     }
 
-    /**
-     * Ask player's action
-     *
-     * @param quiz
-     * @return player's acction
-     */
-    public int askAction(QuizInfo quiz) {
-        ActionView actionView = new ActionView();
-        int input = actionView.askAction(player.getLifelines(), this.scanner);
-
-        switch (input) {
-            case Const.ANSWER_QUIZ:
-                askAnswer(quiz);
+    private void useLifeline(String selectedLifeline) {
+        List<Lifeline> lifelines = player.getLifelines();
+        for (Lifeline lifeline : lifelines) {
+            if (selectedLifeline.equals(lifeline.getName())) {
+                QuizInfo currentQuizInfo = ((QuizManager) mainDisplay.getPanel().getParam()).getCurrentQuizInfo();
+                lifeline.addObserver((Observer) mainDisplay.getPanel());
+                lifeline.execute(currentQuizInfo);
                 break;
-            case Const.USE_LIFELINE:
-                chooseLifien(quiz);
-                break;
-            case Const.QUIT:
-                this.isFinished = true;
-                break;
-            default:
-                break;
-        }
-
-        return input;
-    }
-
-    /**
-     * Ask player's answer, then judge it.
-     *
-     * @param quiz
-     */
-    public void askAnswer(QuizInfo quiz) {
-        AnswerView answerView = new AnswerView();
-        int playerAnswer = answerView.askAnswer(quiz.getOption(), this.scanner);
-
-        JudgeService judgeService = new JudgeService();
-        if (!judgeService.judge(quiz.getQuiz().getAnswer(), playerAnswer, this.player, this.round)) {
-            this.isFinished = true;
-        }
-        showResult();
-    }
-
-    /**
-     * Dislay available lifelies and execute the chosen one.
-     *
-     * @param quiz
-     */
-    public void chooseLifien(QuizInfo quiz) {
-        LifelineView lifelineView = new LifelineView();
-        Lifeline chosen = lifelineView.chooseLifeline(this.player.getLifelines(), this.scanner);
-
-        LifelineService lifelineService = new LifelineService();
-        lifelineService.execute(chosen, quiz);
-    }
-
-    /**
-     * Display player's score.
-     */
-    public void showResult() {
-        ResultView resultView = new ResultView();
-        resultView.showResult(isFinished, round);
-        
-        this.round++;
-        
-        if (this.round > Const.FINAL_ROUND) {
-            this.isFinished = true;
+            }
         }
     }
 
-    /**
-     * Display ending and ask continue.
-     */
-    public void showEnding() {
-        EndingView resultView = new EndingView();
-        resultView.displayResult(player);
+    private void showRankingDislpay() {
+        //prepaer panel
+        Panel rankingPanel = new RankingPanel();
+        setController(rankingPanel);
+        subDisplay.setPanel(rankingPanel);
+        //get ranking
+        RankingService service = new RankingService();
+        service.addObserver((RankingPanel) rankingPanel);
+        service.getRanking();
 
-        if (!resultView.askContinue(this.scanner)) {
-            this.isExited = true;
-        }
+        //show the sub display
+        subDisplay.open(300, 300);
+
     }
 
-    /**
-     * Register player information to a player file and a ranking file.
-     */
-    public void registData() {
-        //register player to a plater file
+    private void createPlayer(String name) {
+        PlayerRegisterService service = new PlayerRegisterService();
+        int id = service.getNewId();
+        this.player = new Player(name, id);
+    }
+    
+    private void registerData() {
+        //register player to a platers table
         PlayerRegisterService playerService = new PlayerRegisterService();
         playerService.registPlayer(this.player);
-
-        //register player to a ranking file
+        
+        //register player to a ranking table
         RankingService rankingService = new RankingService();
         rankingService.registerToRanking(this.player);
     }
 
-    /**
-     *
-     * @return true if a plyer choose not to continue the game. False ifa player
-     * choose to continue.
-     */
-    public boolean isExited() {
-        return this.isExited;
+    private boolean finishGame() {
+        return false;
     }
 
-    /**
-     *
-     * @return true if a plyer quit or a player clear the game. Otherwise,
-     * false.
-     */
-    public boolean isGameFinished() {
-        return this.isFinished;
+    private void setController(Panel panel) {
+        panel.addController(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand());
+        switch (e.getActionCommand()) {
+            case Const.NEW_GAME_BUTTON:
+                showRegisterDislpay();
+                break;
+            case Const.CONTINUE_BUTTON:
+                showQuizDisplay();
+                break;
+            case Const.RANKING_BUTTON:
+                showRankingDislpay();
+                break;
+            case Const.CLOSE_BUTTON:
+                subDisplay.dispose();
+                break;
+            case Const.REGISTER_BUTTON:
+                createPlayer((String) subDisplay.getPanel().getParam());
+                subDisplay.dispose();
+                showQuizDisplay();
+                break;
+            case Const.OPTION1_BUTTON:
+            case Const.OPTION2_BUTTON:
+            case Const.OPTION3_BUTTON:
+            case Const.OPTION4_BUTTON:
+                int answerId = ((QuizManager) mainDisplay.getPanel().getParam()).getCurrentAnswer();
+                int selectedId = Integer.parseInt(e.getActionCommand());
+                judge(answerId, selectedId);
+                break;
+            case Const.QUIT_BUTTON:
+                //move back to the start display
+                showStartDisplay();
+                break;
+            case Const.AUDIENCE:
+            case Const.TELEPHONE:
+            case Const.FIFTY_FIFTY:
+                useLifeline(e.getActionCommand());
+                break;
+
+        }
     }
 }

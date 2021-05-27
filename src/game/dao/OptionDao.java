@@ -42,11 +42,8 @@ public class OptionDao extends DBAccessor implements IOptionDao {
             while (rs.next()) {
                 OptionDto option = new OptionDto();
                 option.setQuizId(rs.getInt("QUIZ_ID"));
-                System.out.print(rs.getInt("QUIZ_ID")+"," );
                 option.setId(rs.getInt("OPTION_ID"));
-                System.out.print(rs.getInt("OPTION_ID")+"," );
                 option.setStatement(rs.getString("STATEMENT"));
-                System.out.println(rs.getString("STATEMENT"));
                 options.add(option);
             }
         } catch (SQLException ex) {
