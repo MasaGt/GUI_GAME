@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author dylan
  */
-public class StartDisplay extends JPanel {
+public class StartDisplay extends JPanel implements Observer {
     
     private final JLabel icon;
     private final JButton start;
@@ -64,5 +66,10 @@ public class StartDisplay extends JPanel {
         frame.setLocation(new Point((screenWidth / 2) - (frame.getWidth() / 2), (screenHeight / 2) - (frame.getHeight() / 2)));
 
         frame.setVisible(true);
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        
     }
 }
