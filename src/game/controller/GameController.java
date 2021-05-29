@@ -5,6 +5,7 @@
  */
 package game.controller;
 
+import game.entity.GameData;
 import game.entity.Lifeline;
 import game.entity.Player;
 import game.entity.QuizInfo;
@@ -14,7 +15,7 @@ import game.service.PlayerRegisterService;
 import game.service.QuizService;
 import game.service.RankingService;
 import game.util.Const;
-import game.util.Level;
+import game.views.AudiencePanel;
 import game.views.Frame;
 import game.views.MainFrame;
 import game.views.Panel;
@@ -23,6 +24,7 @@ import game.views.RankingPanel;
 import game.views.RegisterPanel;
 import game.views.StartPanel;
 import game.views.SubFrame;
+import game.views.TelephonePanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -35,11 +37,7 @@ import java.util.Observer;
  */
 public class GameController implements ActionListener {
 
-    private Player player;
-    private int round;
-    private Level level;
-    private boolean isExited;
-    private boolean isFinished;
+    private GameData gameData;
     private Frame mainDisplay;
     private Frame subDisplay;
 
@@ -55,11 +53,10 @@ public class GameController implements ActionListener {
      * Init attributes regarding the game, then display start view.
      */
     public void initGame() {
-        round = 1;
-        level = Level.VERY_EASY;
-        isExited = false;
-        isFinished = false;
+        this.gameData= new GameData();
+        Player player = gameData.getPlayer();
         if (player != null) {
+            System.out.println("playerはnullじゃない");
             player.reset();
         }
     }
@@ -69,7 +66,7 @@ public class GameController implements ActionListener {
      */
     public void showStartDisplay() {
         //set panel to the main display
-        Panel startPanel = new StartPanel(player);
+        Panel startPanel = new StartPanel(gameData.getPlayer());
         setController(startPanel);
         mainDisplay.setPanel(startPanel);
 
@@ -85,7 +82,8 @@ public class GameController implements ActionListener {
     }
 
     private void showQuizDisplay() {
-        Panel panel = new QuizPanel(round);
+        System.out.println(gameData.getPlayer().getScore());
+        Panel panel = new QuizPanel(this.gameData);
         panel.addController(this);
         mainDisplay.setPanel(panel);
         QuizService service = new QuizService();
@@ -106,24 +104,28 @@ public class GameController implements ActionListener {
 
         JudgeService service = new JudgeService();
         service.addObserver((Observer) mainDisplay.getPanel());
-
-        if (service.judge(round, selectedOpt)) {
-            service.calcScore(player, round);
-        } else {
-            registerData();
+        
+        boolean result = service.judgeAnswer(answerId, selectedOpt);
+        if (result) {
+            service.calcScore(gameData);
         }
+        service.judgeCompletion(result, gameData);
     }
 
-    private void useLifeline(String selectedLifeline) {
-        List<Lifeline> lifelines = player.getLifelines();
+    private void useLifeline(String selectedLifeline, Frame targetFrame) {
+        List<Lifeline> lifelines = gameData.getPlayer().getLifelines();
         for (Lifeline lifeline : lifelines) {
             if (selectedLifeline.equals(lifeline.getName())) {
                 QuizInfo currentQuizInfo = ((QuizManager) mainDisplay.getPanel().getParam()).getCurrentQuizInfo();
-                lifeline.addObserver((Observer) mainDisplay.getPanel());
+                lifeline.addObserver((Observer) targetFrame.getPanel());
                 lifeline.execute(currentQuizInfo);
                 break;
             }
         }
+        if (mainDisplay.getPanel() instanceof QuizPanel) {
+            ((QuizPanel)mainDisplay.getPanel()).disableLifelines(selectedLifeline);
+        }
+        
     }
 
     private void showRankingDislpay() {
@@ -144,17 +146,37 @@ public class GameController implements ActionListener {
     private void createPlayer(String name) {
         PlayerRegisterService service = new PlayerRegisterService();
         int id = service.getNewId();
-        this.player = new Player(name, id);
+        gameData.setPlayer(new Player(name, id));
     }
     
     private void registerData() {
         //register player to a platers table
         PlayerRegisterService playerService = new PlayerRegisterService();
-        playerService.registPlayer(this.player);
+        playerService.registPlayer(gameData.getPlayer());
         
         //register player to a ranking table
         RankingService rankingService = new RankingService();
-        rankingService.registerToRanking(this.player);
+        rankingService.registerToRanking(gameData.getPlayer());
+    }
+
+    private void showAudienceDisplay(String lifelineName) {
+        Panel AudPanel = new AudiencePanel();
+        setController(AudPanel);
+        subDisplay.setPanel(AudPanel);
+        useLifeline(lifelineName, subDisplay);
+        subDisplay.open(600, 600);
+  
+    }
+    
+    private void showTelephoneDisplay(String lifelineName) {
+        Panel telPanel = new TelephonePanel();
+        setController(telPanel);
+        subDisplay.setPanel(telPanel);
+        
+        //execute telephone
+        useLifeline(lifelineName, subDisplay);
+        subDisplay.open(300, 300);
+        
     }
 
     private boolean finishGame() {
@@ -199,9 +221,13 @@ public class GameController implements ActionListener {
                 showStartDisplay();
                 break;
             case Const.AUDIENCE:
+                showAudienceDisplay(e.getActionCommand());
+                break;
             case Const.TELEPHONE:
+                showTelephoneDisplay(e.getActionCommand());
+                break;
             case Const.FIFTY_FIFTY:
-                useLifeline(e.getActionCommand());
+                useLifeline(e.getActionCommand(), mainDisplay);
                 break;
 
         }

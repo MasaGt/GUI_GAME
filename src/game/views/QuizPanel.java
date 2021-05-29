@@ -6,6 +6,7 @@
 package game.views;
 
 import game.controller.GameController;
+import game.entity.GameData;
 import game.entity.OptionDto;
 import game.entity.QuizInfo;
 import game.entity.QuizManager;
@@ -27,7 +28,7 @@ import javax.swing.JList;
  * @author Masaomi
  */
 public class QuizPanel extends Panel implements Observer {
-    
+
     private final JList stageList;
     private final JButton audience;
     private final JButton telephone;
@@ -42,35 +43,46 @@ public class QuizPanel extends Panel implements Observer {
     private final String[] stages = {"15 - $1,000,000", "14 - $500,000", "13 - $250,000", "12 - $125,000", "11 - $64,000", "10 - $32,000", "  9 - $16,000", "  8 - $8000",
         "  7 - $4000", "  6 - $2000", "  5 - $1000", "  4 - $500", "  3 - $300", "  2 - $200", "  1 - $100"};
 
+    private List<JButton> lifelineButtons;
     private List<JButton> optionButtons;
     private QuizManager quizManager;
-    private int round;
-    
-    public QuizPanel(int round) {
+    private GameData gameData;
+
+    public QuizPanel(GameData gameData) {
         super(new BorderLayout());
         setLayout(null);
         setPreferredSize(new Dimension(500, 500));
+
+        this.gameData = gameData;
+        optionButtons = new ArrayList<>();
+        lifelineButtons = new ArrayList<>();
 
         stageList = new JList(stages);
         stageList.setLocation(370, 20);
         stageList.setSize(120, 260);
         stageList.setBorder(BorderFactory.createLineBorder(Color.black));
+        stageList.setFocusable(false);
+        stageList.setSelectionModel(new ListRender(stages.length, gameData));
+
         add(stageList);
 
         audience = new JButton(Const.AUDIENCE);
         audience.setLocation(10, 90);
         audience.setSize(100, 25);
         add(audience);
+        lifelineButtons.add(audience);
 
         telephone = new JButton(Const.TELEPHONE);
         telephone.setLocation(10, 120);
         telephone.setSize(100, 25);
         add(telephone);
+        lifelineButtons.add(telephone);
 
         fiftyFifty = new JButton(Const.FIFTY_FIFTY);
         fiftyFifty.setLocation(10, 150);
         fiftyFifty.setSize(100, 25);
         add(fiftyFifty);
+        lifelineButtons.add(fiftyFifty);
 
         quiz = new JLabel("Quiz");
         quiz.setLocation(50, 250);
@@ -85,23 +97,25 @@ public class QuizPanel extends Panel implements Observer {
         add(stage);
 
         buttonA = new JButton(Const.OPTION1_BUTTON);
-
+        optionButtons.add(buttonA);
         buttonA.setLocation(50, 360);
         buttonA.setSize(100, 50);
         add(buttonA);
 
         buttonB = new JButton(Const.OPTION2_BUTTON);
-
+        optionButtons.add(buttonB);
         buttonB.setLocation(250, 360);
         buttonB.setSize(100, 50);
         add(buttonB);
 
         buttonC = new JButton(Const.OPTION3_BUTTON);
+        optionButtons.add(buttonC);
         buttonC.setLocation(50, 435);
         buttonC.setSize(100, 50);
         add(buttonC);
 
         buttonD = new JButton(Const.OPTION4_BUTTON);
+        optionButtons.add(buttonD);
         buttonD.setLocation(250, 435);
         buttonD.setSize(100, 50);
         add(buttonD);
@@ -110,8 +124,6 @@ public class QuizPanel extends Panel implements Observer {
         quitButton.setLocation(400, 387);
         quitButton.setSize(75, 50);
         add(quitButton);
-
-        optionButtons = new ArrayList<>();
     }
 
     @Override
@@ -130,14 +142,19 @@ public class QuizPanel extends Panel implements Observer {
     public void update(Observable o, Object arg) {
 
         if (arg instanceof List) {
+            //arg: quizes retrieved from the table.
             quizManager = new QuizManager((List<QuizInfo>) arg);
-            renderQuiz();
+            render();
         } else if (arg instanceof Boolean) {
-            if (false == (Boolean) arg) {
+            //arg: result of judge.
+            if ((Boolean) arg) {
                 failedMessage();
             } else {
-                renderQuiz();
-            } 
+                render();
+            }
+        } else if (arg instanceof QuizInfo) {
+            //arg: quizinfo in whihc two incorrect answer are removed.
+            retrieveRemainOpIds((QuizInfo) arg);
         }
     }
 
@@ -146,46 +163,104 @@ public class QuizPanel extends Panel implements Observer {
         return quizManager;
     }
 
-    public void renderQuiz() {
+    private void render() {
 
         if (quizManager.canMoveToNext()) {
             quizManager.moveToNext();
-
             quiz.setText(quizManager.getCurrentQuiz().getStatement());
             setOptions(quizManager.getCurrentOption());
-            stage.setText(Integer.toString(round));
+            stage.setText(Integer.toString(this.gameData.getRound()));
+            renderPrizeList();
         }
+        
     }
 
     public void setOptions(List<OptionDto> options) {
-
+        
         prepOptionButtons();
         for (int i = 0; i < options.size(); i++) {
+            System.out.println(options.get(i).getStatement());
             int optionId = options.get(i).getId();
             optionButtons.get(i).setActionCommand(Integer.toString(optionId));
+            optionButtons.get(i).setText(Integer.toString(optionId));
         }
     }
 
     public void prepOptionButtons() {
-        optionButtons.clear();
-        if (buttonA.isEnabled()) {
-            optionButtons.add(buttonA);
-        }
-        if (buttonB.isEnabled()) {
-            optionButtons.add(buttonB);
-        }
-        if (buttonC.isEnabled()) {
-            optionButtons.add(buttonC);
-        }
-        if (buttonD.isEnabled()) {
-            optionButtons.add(buttonD);
-        }
+//        optionButtons.clear();
+        enableBtns(optionButtons, true);
+        
+    }
+
+    private void renderPrizeList() {
+        this.stageList.clearSelection();
+        System.out.println(gameData.getRound());
+        int highlightIndex = stages.length - gameData.getRound();
+        this.stageList.setSelectedIndex(highlightIndex);
+        this.stageList.setSelectionBackground(Color.GREEN);
     }
 
     private void failedMessage() {
-        for (JButton optionButton : optionButtons) {
-            optionButton.setEnabled(false);
-        }
+        enableBtns(optionButtons, false);
         quiz.setText("Your answer was wrong");
+    }
+    
+    /**
+     * 
+     * @param quizInfo two incorrect options are removed bt fifty-fifty.
+     */
+    private void retrieveRemainOpIds(QuizInfo quizInfo) {
+        //Two options were remain in the parameter "quizInfo";
+        List<OptionDto> options = quizInfo.getOption();
+        String[] remainOpIds = new String[options.size()];
+        
+        for (int i = 0; i < options.size(); i++) {
+            remainOpIds[i] = Integer.toString(options.get(i).getId());
+        }
+        
+        disableOpBtns(remainOpIds);
+    }
+    
+    private boolean disableOpBtns(String[] remainOpIds) {
+        //enable all the option buttons.
+        enableBtns(optionButtons, false);
+        
+        //enable option button whihc has the same option id as the parameter (remain id).
+        for (int i = 0; i < remainOpIds.length; i++) {
+            String remainOpId = remainOpIds[i];
+            
+            for (JButton opBtn : optionButtons) {
+                if (opBtn.getActionCommand().equalsIgnoreCase(remainOpId)) {
+                    System.out.println("ramin id is :" + remainOpId);
+                    opBtn.setEnabled(true);
+                }
+            }
+        }
+        return false;
+    }
+
+    
+    /**
+     * Disable lifeline button.
+     * @param usedLifeline target lifeline name.
+     */
+    public void disableLifelines(String usedLifeline) {
+
+        for (JButton button : lifelineButtons) {
+            if (button.getText().equalsIgnoreCase(usedLifeline)) {
+                button.setEnabled(false);
+            }
+        }
+    }
+    
+    /**
+     * Set Buttons enable or disable according to the flag.
+     * @param btns targetBtns.
+     * @param enableFlg enable if the flg true, disable if the flg is false.
+     */
+    public void enableBtns(List<JButton> btns, boolean enableFlg) {
+        for (JButton btn : btns) {
+            btn.setEnabled(enableFlg);
+        }
     }
 }

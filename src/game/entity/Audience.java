@@ -69,5 +69,6 @@ public class Audience extends Lifeline {
 
         setChanged();
         notifyObservers(percentPerOption);
+        disable();
     }
 }

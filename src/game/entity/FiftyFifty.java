@@ -58,5 +58,6 @@ public class FiftyFifty extends Lifeline {
         
         setChanged();
         notifyObservers(quiz);
+        disable();
     }
 }
