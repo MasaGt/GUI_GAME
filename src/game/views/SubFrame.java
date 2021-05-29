@@ -20,7 +20,7 @@ public class SubFrame extends Frame {
     @Override
     public void open(int width, int height) {
         this.setSize(width, height);
-        this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setResizable(true);
         this.pack();
         this.setVisible(true);
