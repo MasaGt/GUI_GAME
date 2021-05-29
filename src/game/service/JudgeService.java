@@ -41,12 +41,11 @@ public class JudgeService extends Observable {
      * @param result result of checking player's answer,
      * @param gameData 
      */
-    public void judgeCompletion(boolean result, GameData gameData) {
-        if (result) {
-            gameData.setIsFinished(true);
-        } else {
-            gameData.incrementRound();
+    public void judgeCompletion(boolean resultCorrect, GameData gameData) {
+        if (!resultCorrect) {
+            gameData.fail();
         }
+        gameData.incrementRound();
         
         setChanged();
         notifyObservers(gameData);

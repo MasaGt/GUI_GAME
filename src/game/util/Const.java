@@ -33,4 +33,5 @@ public class Const {
     public static final String AUDIENCE = "Audience";
     public static final String TELEPHONE = "Telephone";
     public static final String FIFTY_FIFTY = "50/50";
+    public static final String VALID_CHAR_FOR_PLAYER = "^[0-9a-zA-Z][0-9a-zA-Z]+";
 }

@@ -5,6 +5,8 @@
  */
 package game.entity;
 
+import game.util.Const;
+
 /**
  *
  * @author Masaomi
@@ -13,6 +15,7 @@ public class GameData {
 
     private Player player;
     private int round;
+    private boolean isFaild;
     private boolean isFinished;
 
     public GameData() {
@@ -42,7 +45,6 @@ public class GameData {
     }
 
     /**
-     * @param round the round to set
      */
     public void incrementRound() {
         this.round++;
@@ -52,14 +54,15 @@ public class GameData {
      * @return the isFinished
      */
     public boolean isFinished() {
-        return isFinished;
+        return round > Const.FINAL_ROUND;
     }
 
-    /**
-     * @param isFinished the isFinished to set
-     */
-    public void setIsFinished(boolean isFinished) {
-        this.isFinished = isFinished;
+    public boolean isFailed() {
+        return isFaild;
+    }
+    
+    public void fail() {
+        this.isFaild = true;
     }
 
 }

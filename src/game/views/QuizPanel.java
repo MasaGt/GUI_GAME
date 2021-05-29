@@ -145,10 +145,10 @@ public class QuizPanel extends Panel implements Observer {
             //arg: quizes retrieved from the table.
             quizManager = new QuizManager((List<QuizInfo>) arg);
             render();
-        } else if (arg instanceof Boolean) {
-            //arg: result of judge.
-            if ((Boolean) arg) {
-                failedMessage();
+        } else if (arg instanceof GameData) {
+            //arg: result of quiz
+            if (gameData.isFailed() || gameData.isFinished()) {
+                renderEndMsg(gameData.isFinished());
             } else {
                 render();
             }
@@ -172,66 +172,77 @@ public class QuizPanel extends Panel implements Observer {
             stage.setText(Integer.toString(this.gameData.getRound()));
             renderPrizeList();
         }
-        
+
     }
 
     public void setOptions(List<OptionDto> options) {
-        
+
         prepOptionButtons();
         for (int i = 0; i < options.size(); i++) {
-            System.out.println(options.get(i).getStatement());
+            //TODO: remove before submit.
+//            System.out.println(options.get(i).getStatement());
             int optionId = options.get(i).getId();
             optionButtons.get(i).setActionCommand(Integer.toString(optionId));
             optionButtons.get(i).setText(Integer.toString(optionId));
+            //TODO: swict this code before submit.
+//            optionButtons.get(i).setText(Integer.toString(i++));
         }
     }
 
     public void prepOptionButtons() {
 //        optionButtons.clear();
         enableBtns(optionButtons, true);
-        
+
     }
 
     private void renderPrizeList() {
         this.stageList.clearSelection();
-        System.out.println(gameData.getRound());
         int highlightIndex = stages.length - gameData.getRound();
         this.stageList.setSelectedIndex(highlightIndex);
         this.stageList.setSelectionBackground(Color.GREEN);
     }
 
-    private void failedMessage() {
-        enableBtns(optionButtons, false);
-        quiz.setText("Your answer was wrong");
-    }
-    
     /**
      * 
+     * @param finishFlg true, if the player clear the game.
+     * false. if the player failed the game.
+     */
+    private void renderEndMsg(boolean finishFlg) {
+        enableBtns(lifelineButtons, false);
+        enableBtns(optionButtons, false);
+        if (finishFlg) {
+            quiz.setText("You got all the answer correct!!");
+         } else {
+            quiz.setText("Your answer was wrong.");
+        }
+    }
+
+    /**
+     *
      * @param quizInfo two incorrect options are removed bt fifty-fifty.
      */
     private void retrieveRemainOpIds(QuizInfo quizInfo) {
         //Two options were remain in the parameter "quizInfo";
         List<OptionDto> options = quizInfo.getOption();
         String[] remainOpIds = new String[options.size()];
-        
+
         for (int i = 0; i < options.size(); i++) {
             remainOpIds[i] = Integer.toString(options.get(i).getId());
         }
-        
+
         disableOpBtns(remainOpIds);
     }
-    
+
     private boolean disableOpBtns(String[] remainOpIds) {
         //enable all the option buttons.
         enableBtns(optionButtons, false);
-        
+
         //enable option button whihc has the same option id as the parameter (remain id).
         for (int i = 0; i < remainOpIds.length; i++) {
             String remainOpId = remainOpIds[i];
-            
+
             for (JButton opBtn : optionButtons) {
                 if (opBtn.getActionCommand().equalsIgnoreCase(remainOpId)) {
-                    System.out.println("ramin id is :" + remainOpId);
                     opBtn.setEnabled(true);
                 }
             }
@@ -239,9 +250,9 @@ public class QuizPanel extends Panel implements Observer {
         return false;
     }
 
-    
     /**
      * Disable lifeline button.
+     *
      * @param usedLifeline target lifeline name.
      */
     public void disableLifelines(String usedLifeline) {
@@ -252,9 +263,10 @@ public class QuizPanel extends Panel implements Observer {
             }
         }
     }
-    
+
     /**
      * Set Buttons enable or disable according to the flag.
+     *
      * @param btns targetBtns.
      * @param enableFlg enable if the flg true, disable if the flg is false.
      */
