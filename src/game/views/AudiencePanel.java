@@ -9,14 +9,12 @@ import game.controller.GameController;
 import game.util.Const;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -25,69 +23,63 @@ import javax.swing.JLabel;
 public class AudiencePanel extends Panel implements Observer {
 
 
+    //components
     private JLabel option1;
     private JLabel option2;
     private JLabel option3;
     private JLabel option4;
-    private List<JLabel> lables;
-    private JButton closeButton;
-    private int labelWidth = 100;
-    private int labelHeight = 50;
-    private int margin = 20;
+    private final JButton closeButton;
+    private GraphPanel graphPanel;
+    private JPanel buttonPanel;
+    
+    //seize variables
+    private final int LABEL_WIDTH = 100;
+    private final int LABEL_HEIGHT = 50;
+    private final int MARGIN = 20;
+    private final int PANEL_LEN = 300;
+    private final int GRAPH_PANEL_LEN = 200;
+    private final int BTN_WIDTH = 100;
+    private final int BTN_HEIGHT = 50;
     
     public AudiencePanel() {
 
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(300, 300));
-        option1 = new JLabel();
-        this.add(option1);
-        option2 = new JLabel();
-        this.add(option2);
-        option3 = new JLabel();
-        this.add(option3);
-        option4 = new JLabel();
-        this.add(option4);
+        setPreferredSize(new Dimension(PANEL_LEN, PANEL_LEN));
+        graphPanel = new GraphPanel();
+        graphPanel.setPreferredSize(new Dimension(GRAPH_PANEL_LEN,GRAPH_PANEL_LEN));
+        add(graphPanel, BorderLayout.CENTER);
         
-        lables = new ArrayList<>();
-        lables.add(option1);
-        lables.add(option2);
-        lables.add(option3);
-        lables.add(option4);
+        buttonPanel = new JPanel();
+        add(buttonPanel, BorderLayout.SOUTH);
         
         closeButton = new JButton(Const.CLOSE_BUTTON);
-        this.add(closeButton);
+        closeButton.setSize(new Dimension(BTN_WIDTH, BTN_HEIGHT));
+        buttonPanel.add(closeButton);
     }
 
     @Override
     public Object getParam() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
+    /**
+     * Add action lister to the close button.
+     * @param controller 
+     */
     @Override
     public void addController(GameController controller) {
         closeButton.addActionListener(controller);
     }
 
+    /**
+     * Receive the result of Audience.
+     * @param o
+     * @param arg Map<optionId, percentage>
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Map) {
-            render((Map<Integer, Integer>) arg);
-        }
-    }
-    
-    /**
-     * render the quize, option buttons, update prize list, stage indicator.
-     * @param percentPerOption 
-     */
-    private void render(Map<Integer, Integer> percentPerOption) {
-        
-        Iterator it = lables.iterator();
-        for (Map.Entry<Integer, Integer> item : percentPerOption.entrySet()) {
-            if (it.hasNext()) {
-                JLabel label = ((JLabel)it.next());
-                label.setText(item.getKey() + " : " + item.getValue() + "%");
-                label.setSize(labelWidth, labelHeight);
-            }
+            graphPanel.setPercentage((Map<Integer, Integer>) arg);
         }
     }
 }

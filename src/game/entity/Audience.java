@@ -5,7 +5,7 @@
  */
 package game.entity;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -37,7 +37,7 @@ public class Audience extends Lifeline {
         Random rand = new Random();
         List<OptionDto> options = quiz.getOption();
         //key: optionId, value: percentage
-        Map<Integer, Integer> percentPerOption = new HashMap<>();
+        Map<Integer, Integer> percentPerOption = new LinkedHashMap<>();
 
         int total = 100;
         //randForCorrect will be between 51 to 100 so that it should be  heighest.
