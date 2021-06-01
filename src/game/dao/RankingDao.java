@@ -36,7 +36,7 @@ public class RankingDao extends DBAccessor implements IRankingDao {
         try {
             while (rs.next()) {
                 RankingDto rank = new RankingDto();
-                rank.setRank(rs.getInt("PLAYER_ID"));
+                rank.setRank(rs.getInt("RANK"));
                 rank.setPlayerId(rs.getInt("PLAYER_ID"));
                 rank.setName(rs.getString("PLAYER_NAME"));
                 rank.setScore(rs.getInt("SCORE"));
