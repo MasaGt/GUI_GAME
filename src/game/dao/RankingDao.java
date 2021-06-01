@@ -7,6 +7,7 @@ package game.dao;
 
 import game.entity.RankingDto;
 import game.util.Const;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  * @author Masaomi
  */
 public class RankingDao extends DBAccessor implements IRankingDao {
-    
+
     /**
      * Read Rankng from Ranking Table
      *
@@ -28,7 +29,7 @@ public class RankingDao extends DBAccessor implements IRankingDao {
      */
     @Override
     public List<RankingDto> getAll() {
-        
+
         Product db = open();
         List<RankingDto> rankings = new ArrayList<>();
 
@@ -64,21 +65,37 @@ public class RankingDao extends DBAccessor implements IRankingDao {
         Product db = open();
         RankingDto rankItem = null;
 
-        //the following code might cause array index out of bounds exception when ranking.size() < Const.RANKING_RECORD_LIMIT
-        //for (int i = 0; i < Const.RANKING_RECORD_LIMIT; i++);
-        for (int i = 0; i < ranking.size(); i++) {
-            if (i >= Const.RANKING_RECORD_LIMIT) {
-                break;
+        Connection con = db.getConn();
+        try {
+            con.setAutoCommit(false);
+
+            //remove all the records in the ranking table beforehand.
+            deleteAll(db);
+            
+            //the following code might cause array index out of bounds exception when ranking.size() < Const.RANKING_RECORD_LIMIT
+            //for (int i = 0; i < Const.RANKING_RECORD_LIMIT; i++);
+            for (int i = 0; i < ranking.size(); i++) {
+                if (i >= Const.RANKING_RECORD_LIMIT) {
+                    break;
+                }
+                rankItem = ranking.get(i);
+                db.executeUpdate("INSERT INTO RANKING VALUES("
+                        + rankItem.getRank() + ","
+                        + rankItem.getPlayerId() + ", '"
+                        + rankItem.getName() + "',"
+                        + rankItem.getScore() + ")"
+                );
             }
-            rankItem = ranking.get(i);
-            db.executeUpdate("INSERT INTO RANKING VALUES("
-                    + rankItem.getRank() + ","
-                    + rankItem.getPlayerId() + ", '"
-                    + rankItem.getName() + "',"
-                    + rankItem.getScore() + ")"
-            );
+            
+            con.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(RankingDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         close(db);
+    }
+
+    private void deleteAll(Product db) {
+        db.executeUpdate("DELETE FROM RANKING");
     }
 }
