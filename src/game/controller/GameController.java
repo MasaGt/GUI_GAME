@@ -53,7 +53,12 @@ public class GameController implements ActionListener {
      * Init attributes regarding the game, then display start view.
      */
     public void initGame() {
-        this.gameData = new GameData();
+        if (this.gameData == null) {
+            this.gameData = new GameData();
+        } else {
+            this.gameData.initGameData();
+        }
+        
         Player player = gameData.getPlayer();
         if (player != null) {
             player.reset();
@@ -184,10 +189,6 @@ public class GameController implements ActionListener {
 
     }
 
-    private boolean finishGame() {
-        return false;
-    }
-
     private void setController(Panel panel) {
         panel.addController(this);
     }
@@ -199,6 +200,7 @@ public class GameController implements ActionListener {
                 showRegisterDislpay();
                 break;
             case Const.CONTINUE_BUTTON:
+                initGame();
                 showQuizDisplay();
                 break;
             case Const.RANKING_BUTTON:
@@ -220,6 +222,7 @@ public class GameController implements ActionListener {
                 judge(answerId, selectedId);
                 break;
             case Const.QUIT_BUTTON:
+                registerData();
                 //move back to the start display
                 showStartDisplay();
                 break;

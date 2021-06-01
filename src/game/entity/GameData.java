@@ -19,8 +19,7 @@ public class GameData {
     private boolean isFinished;
 
     public GameData() {
-        this.round = 1;
-        this.isFinished = false;
+        initGameData();
     }
 
     /**
@@ -60,9 +59,15 @@ public class GameData {
     public boolean isFailed() {
         return isFaild;
     }
-    
+
     public void fail() {
         this.isFaild = true;
+    }
+
+    public void initGameData() {
+        this.round = 1;
+        this.isFaild = false;
+        this.isFinished = false;
     }
 
 }
