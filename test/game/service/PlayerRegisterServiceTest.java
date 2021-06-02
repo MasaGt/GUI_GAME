@@ -42,7 +42,7 @@ public class PlayerRegisterServiceTest {
      * case1 invalid name: empty
      */
     @Test
-    public void testValidateName1() {
+    public void emptyName() {
         System.out.println("validateName");
         String name = "";
         PlayerRegisterService instance = new PlayerRegisterService();
@@ -56,7 +56,7 @@ public class PlayerRegisterServiceTest {
      * case2 invalid name: name contains invalid symbols
      */
     @Test
-    public void testValidateName2() {
+    public void InvalidSymbol() {
         System.out.println("validateName");
         String name = "inva'lid";
         PlayerRegisterService instance = new PlayerRegisterService();
@@ -70,7 +70,7 @@ public class PlayerRegisterServiceTest {
      * case3 invalid name: name contains a space
      */
     @Test
-    public void testValidateName3() {
+    public void containSpace() {
         System.out.println("validateName");
         String name = "2sample User";
         PlayerRegisterService instance = new PlayerRegisterService();
@@ -84,7 +84,7 @@ public class PlayerRegisterServiceTest {
      * case4 valid name: name contains only one alphabet
      */
     @Test
-    public void testValidateName4() {
+    public void validNameAlpha() {
         System.out.println("validateName");
         String name = "B";
         PlayerRegisterService instance = new PlayerRegisterService();
@@ -95,12 +95,26 @@ public class PlayerRegisterServiceTest {
     
     /**
      * Test of validateName method, of class PlayerRegisterService.
-     * case5 valid name: name contains only one number
+     * case5 valid name: name contains alphabets and numbers
      */
     @Test
-    public void testValidateName5() {
+    public void validNameNum() {
         System.out.println("validateName");
-        String name = "9";
+        String name = "Sample100";
+        PlayerRegisterService instance = new PlayerRegisterService();
+        boolean expResult = true;
+        boolean result = instance.validateName(name);
+        assertEquals(expResult, result);
+    }
+    
+    
+    /**
+     * Test of validateName method, of class PlayerRegisterService.
+     * case5 valid name: name contains both al
+     */
+    public void validNameMix() {
+        System.out.println("validateName");
+        String name = "B";
         PlayerRegisterService instance = new PlayerRegisterService();
         boolean expResult = true;
         boolean result = instance.validateName(name);

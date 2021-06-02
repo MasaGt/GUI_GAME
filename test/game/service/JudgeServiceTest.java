@@ -43,7 +43,7 @@ public class JudgeServiceTest {
      * case1 player's answer is wrong.
      */
     @Test
-    public void testJudgeAnswer() {
+    public void wrongAnswer() {
         System.out.println("judgeAnswer");
         int answer = 0;
         int input = 1;
@@ -58,7 +58,7 @@ public class JudgeServiceTest {
      * case2 player's answer is correct.
      */
     @Test
-    public void testJudgeAnswer2() {
+    public void correctAnswer() {
         System.out.println("judgeAnswer");
         int answer = 1;
         int input = 1;
