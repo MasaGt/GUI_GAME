@@ -9,7 +9,6 @@ import game.dao.IUserDao;
 import game.dao.UserDao;
 import game.entity.Player;
 import game.util.Const;
-import java.util.Observable;
 
 /**
  * This class is to manipulate the player table.
@@ -19,6 +18,7 @@ public class PlayerRegisterService{
 
     /**
      * issue a new id for a player.
+     * @return new id for a player.
      */
     public int getNewId() {
         IUserDao userDao = new UserDao();
@@ -28,7 +28,7 @@ public class PlayerRegisterService{
     
     /**
      * Register player to the players table.
-     * @param player 
+     * @param player to be registered
      */
     public void registPlayer(Player player) {
 
