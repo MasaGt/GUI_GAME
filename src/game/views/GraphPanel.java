@@ -76,12 +76,12 @@ public class GraphPanel extends JPanel {
         //yAxisEnd = MARGIN
         //xAxisStart = MARGIN;
         int xAxisEnd = this.getWidth() - MARGIN_BUTTOM;
-        //graw x-axis
+        //draw x-axis
         g.drawLine(MARGIN, yAxisStart, xAxisEnd, yAxisStart);
-        //graw y-axis
+        //draw y-axis
         g.drawLine(MARGIN, yAxisStart, MARGIN, MARGIN);
 
-        //graw bars
+        //draw bars
         int index = 0;
         for (Map.Entry<String, Integer> item : percentPerOption.entrySet()) {
             int xCoordinate = MARGIN + itemWidth * index + MARGIN_BET_BAR;
