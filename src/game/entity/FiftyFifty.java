@@ -36,7 +36,7 @@ public class FiftyFifty extends Lifeline {
         List<OptionDto> options = quiz.getOption();
         int answer = quiz.getQuiz().getAnswer();
         //removeTargets hold option id.
-        Set<Integer> removeTargets = new HashSet<Integer>();
+        Set<Integer> removeTargets = new HashSet<>();
         Random rand = new Random();
         int randNum;
 

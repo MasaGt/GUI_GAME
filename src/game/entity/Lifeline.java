@@ -14,7 +14,7 @@ import java.util.Observable;
 public abstract class Lifeline  extends Observable {
     
     private boolean isAvailable;
-    private String name;
+    private final String name;
     
     public Lifeline(String name) {
         this.isAvailable = true;
