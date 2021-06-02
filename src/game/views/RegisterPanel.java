@@ -46,6 +46,7 @@ public class RegisterPanel extends Panel {
         descLabel = new JLabel(Const.wrapText("Register your name (only alphabets and numbers)"));
         descLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
         descLabel.setLocation(100, reEnterLabel.getY() + reEnterLabel.getHeight());
+        descLabel.setHorizontalAlignment(JLabel.CENTER);
         this.add(descLabel);
         
         name = new JTextField();
