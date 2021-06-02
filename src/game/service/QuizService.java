@@ -27,8 +27,6 @@ public class QuizService extends Observable {
     
     /**
      * Get All 15 quizes.
-     * @param level
-     * @return list of quizes
      */
     public void getAllQuizes() {
         
