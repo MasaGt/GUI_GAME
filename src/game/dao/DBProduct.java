@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Product class of Factoy pattern
  * @author Masaomi
  */
 public class DBProduct extends Product {
@@ -28,6 +28,9 @@ public class DBProduct extends Product {
         open();
     }
 
+    /**
+     * connect to the DB.
+     */
     @Override
     public void open() {
         try {
@@ -37,6 +40,9 @@ public class DBProduct extends Product {
         }
     }
 
+    /**
+     * close the connection.
+     */
     @Override
     public void close() {
         if (conn != null) {
@@ -48,6 +54,11 @@ public class DBProduct extends Product {
         }
     }
 
+    /**
+     * Execuet a query (select).
+     * @param sql
+     * @return 
+     */
     @Override
     public ResultSet executeSelect(String sql) {
         Statement statement = null;
@@ -63,11 +74,19 @@ public class DBProduct extends Product {
         return resultSet;
     }
 
+    /**
+     * return DB connection.
+     * @return 
+     */
     @Override
     public Connection getConn() {
         return this.conn;
     }
 
+    /**
+     * execute a query (update, insert, delete).
+     * @param sql 
+     */
     @Override
     public void executeUpdate(String sql) {
         Statement statement = null;

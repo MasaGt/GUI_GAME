@@ -6,11 +6,15 @@
 package game.dao;
 
 /**
- *
+ * Factory class of Factoy pattern
  * @author Masaomi
  */
 public abstract class Factory {
     
+    /**
+     * produce a product.
+     * @return 
+     */
     public final Product create() {
         Product p = this.getConnection();
         return p;

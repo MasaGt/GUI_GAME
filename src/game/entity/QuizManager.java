@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * This is to mamage quizes
  * @author Masaomi
  */
 public class QuizManager {

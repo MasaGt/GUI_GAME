@@ -10,7 +10,7 @@ import game.util.Prize;
 import java.util.ArrayList;
 
 /**
- *
+ * Player information class
  * @author Masaomi
  */
 public class Player {

@@ -5,6 +5,7 @@
  */
 package game.service;
 
+import game.entity.GameData;
 import game.entity.Player;
 import game.util.Prize;
 import java.util.Observable;
@@ -21,20 +22,31 @@ public class JudgeService extends Observable {
      * @param input the option id which a player selected.
      * @return true if player's input is correct. Otherwise, false.
      */
-    public boolean judge(int answer, int input) {
-        setChanged();
-        boolean result = answer == input;
-        
-        notifyObservers(result);
-        return result;
+    public boolean judgeAnswer(int answer, int input) {
+        return answer == input;
     }
     
     /**
-     * calc player's score.
-     * @param player
-     * @param round 
+     * Calculate player's score.
+     * @param gameData
      */
-    public void calcScore(Player player, int round) {
-        player.setScore(Prize.getPrizeFor(round));
+    public void calcScore(GameData gameData) {
+        Player player = gameData.getPlayer();
+        player.setScore(Prize.getPrizeFor(gameData.getRound()));
+    }
+    
+    /**
+     * If the result is false, finish the game.Otherwise, continue.
+     * @param resultCorrect result of checking player's answer,
+     * @param gameData 
+     */
+    public void judgeCompletion(boolean resultCorrect, GameData gameData) {
+        if (!resultCorrect) {
+            gameData.fail();
+        }
+        gameData.incrementRound();
+        
+        setChanged();
+        notifyObservers(gameData);
     }
 }

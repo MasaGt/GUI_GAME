@@ -39,6 +39,7 @@ public class Telephone extends Lifeline {
         msg += correctOption;
         setChanged();
         notifyObservers(msg);
+        disable();
     }
 
 }
