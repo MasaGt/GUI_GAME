@@ -36,7 +36,7 @@ public class AudiencePanel extends Panel implements Observer {
     private final int LABEL_WIDTH = 100;
     private final int LABEL_HEIGHT = 50;
     private final int MARGIN = 20;
-    private final int PANEL_LEN = 300;
+    private final int PANEL_LEN = 400;
     private final int GRAPH_PANEL_LEN = 200;
     private final int BTN_WIDTH = 100;
     private final int BTN_HEIGHT = 50;
@@ -74,7 +74,7 @@ public class AudiencePanel extends Panel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Map) {
-            graphPanel.setPercentage((Map<Integer, Integer>) arg);
+            graphPanel.setPercentage((Map<String, Integer>) arg);
         }
     }
 }

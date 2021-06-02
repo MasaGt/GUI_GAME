@@ -36,8 +36,8 @@ public class Audience extends Lifeline {
 
         Random rand = new Random();
         List<OptionDto> options = quiz.getOption();
-        //key: optionId, value: percentage
-        Map<Integer, Integer> percentPerOption = new LinkedHashMap<>();
+        //key: option statement, value: percentage
+        Map<String, Integer> percentPerOption = new LinkedHashMap<>();
 
         int total = 100;
         //randForCorrect will be between 51 to 100 so that it should be  heighest.
@@ -53,13 +53,13 @@ public class Audience extends Lifeline {
 
             //check which otion is the correct answer
             if (quiz.getQuiz().getAnswer() == options.get(i).getId()) {
-                percentPerOption.put(option.getId(), randForCorrect);
+                percentPerOption.put(option.getStatement(), randForCorrect);
                 randForCorrect = 0;
             } else {
                 if (wrongCounter == wrongOptionsSize) {
-                    percentPerOption.put(option.getId(), left);
+                    percentPerOption.put(option.getStatement(), left);
                 } else {
-                    percentPerOption.put(option.getId(), randForOther);
+                    percentPerOption.put(option.getStatement(), randForOther);
                     left -= randForOther;
                     randForOther = rand.nextInt(left);
                 }

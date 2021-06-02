@@ -5,6 +5,7 @@
  */
 package game.views;
 
+import game.util.Const;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -29,12 +30,13 @@ public class GraphPanel extends JPanel {
 
     //seize variables
     private final int MARGIN = 20;
+    private final int MARGIN_BUTTOM = 50;
     private final int MARGIN_BET_BAR = 10;
 
     //other variables
     private final List<JLabel> lables;
     private final List<Color> colors;
-    private Map<Integer, Integer> percentPerOption;
+    private Map<String, Integer> percentPerOption;
 
     /**
      * init the components.
@@ -70,10 +72,10 @@ public class GraphPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int itemWidth = (this.getWidth() - MARGIN * 2) / percentPerOption.size();
-        int yAxisStart = this.getHeight() - MARGIN;
+        int yAxisStart = this.getHeight() - MARGIN_BUTTOM;
         //yAxisEnd = MARGIN
         //xAxisStart = MARGIN;
-        int xAxisEnd = this.getWidth() - MARGIN;
+        int xAxisEnd = this.getWidth() - MARGIN_BUTTOM;
         //graw x-axis
         g.drawLine(MARGIN, yAxisStart, xAxisEnd, yAxisStart);
         //graw y-axis
@@ -81,7 +83,7 @@ public class GraphPanel extends JPanel {
 
         //graw bars
         int index = 0;
-        for (Map.Entry<Integer, Integer> item : percentPerOption.entrySet()) {
+        for (Map.Entry<String, Integer> item : percentPerOption.entrySet()) {
             int xCoordinate = MARGIN + itemWidth * index + MARGIN_BET_BAR;
             int barWidth = (int) (itemWidth * 0.6);
             int barHeight = item.getValue();
@@ -90,9 +92,10 @@ public class GraphPanel extends JPanel {
             g.fillRect(xCoordinate, yCoordinate - barHeight, barWidth, barHeight);
 
             JLabel optionLabel = lables.get(index);
-            optionLabel.setSize(new Dimension(barWidth, 20));
-            optionLabel.setLocation(xCoordinate + barWidth / 2, yCoordinate - barHeight - MARGIN);
-            optionLabel.setText(Integer.toString(item.getKey()));
+            optionLabel.setSize(new Dimension(barWidth, 100));
+            optionLabel.setLocation(xCoordinate + 5, yCoordinate - MARGIN_BUTTOM / 2);
+            optionLabel.setText(Const.wrapText(item.getKey()));
+            optionLabel.setHorizontalAlignment(JLabel.CENTER);
             index++;
         }
     }
@@ -101,7 +104,7 @@ public class GraphPanel extends JPanel {
      * receive the result of audience.
      * @param percentages the result of audience
      */
-    public void setPercentage(Map<Integer, Integer> percentages) {
+    public void setPercentage(Map<String, Integer> percentages) {
         percentPerOption = percentages;
     }
 }
