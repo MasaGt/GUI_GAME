@@ -5,7 +5,6 @@
  */
 package game.views;
 
-import game.views.Panel;
 import javax.swing.JFrame;
 
 /**
@@ -39,9 +38,7 @@ public abstract class Frame extends JFrame {
     }
     
     /**
-     * open tihs panel.
-     * @param width
-     * @param height 
+     * open this panel.
      */
-    public abstract void open(int width, int height);
+    public abstract void open();
 }

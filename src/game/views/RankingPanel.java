@@ -26,10 +26,6 @@ import javax.swing.table.DefaultTableModel;
 public class RankingPanel extends Panel implements Observer {
 
     //components
-//    private JPanel rankingPanel;
-//    private JLabel rank;
-//    private JLabel playerNm;
-//    private JLabel score;
     private JScrollPane rankingPanel;
     private JTable rankingTable;
     DefaultTableModel tableModel;
@@ -71,11 +67,6 @@ public class RankingPanel extends Panel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         renderRanking((List<RankingDto>) arg);
-    }
-
-    @Override
-    public Object getParam() {
-        return null;
     }
 
     private void renderRanking(List<RankingDto> ranking) {

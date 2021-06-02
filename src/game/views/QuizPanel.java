@@ -182,7 +182,6 @@ public class QuizPanel extends Panel implements Observer {
      *
      * @return
      */
-    @Override
     public Object getParam() {
         return quizManager;
     }

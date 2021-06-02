@@ -16,7 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 /**
- *
+ * Strat display class
  * @author Masaomi
  */
 public class StartPanel extends Panel {
@@ -50,7 +50,6 @@ public class StartPanel extends Panel {
         
         if (player != null) {
             //creaet the Continue button
-            System.out.println("add continue btn");
             continueBtn = new JButton(Const.CONTINUE_BUTTON);
             continueBtn.setLocation(200, 350);
             continueBtn.setSize(100, 50);
@@ -60,10 +59,7 @@ public class StartPanel extends Panel {
         } else {
             rankingBtn.setLocation(200, 350);
         }
-
-        
         add(rankingBtn);
-        
     }
 
     @Override
@@ -73,11 +69,5 @@ public class StartPanel extends Panel {
             continueBtn.addActionListener(controller);
         }
         rankingBtn.addActionListener(controller);
-    }
-
-    @Override
-    public Object getParam() {
-        System.err.println("This shoud not be called");
-        return null;
     }
 }

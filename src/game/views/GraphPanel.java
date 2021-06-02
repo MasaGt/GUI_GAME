@@ -26,16 +26,10 @@ public class GraphPanel extends JPanel {
     private final JLabel option2;
     private final JLabel option3;
     private final JLabel option4;
-    private JPanel graphPanel;
 
     //seize variables
-    private final int LABEL_HEIGHT = 50;
     private final int MARGIN = 20;
     private final int MARGIN_BET_BAR = 10;
-    private final int PANEL_LEN = 300;
-    private final int GRAPH_PANEL_LEN = 200;
-    private final int BTN_WIDTH = 100;
-    private final int BTN_HEIGHT = 50;
 
     //other variables
     private final List<JLabel> lables;
@@ -74,9 +68,7 @@ public class GraphPanel extends JPanel {
      */
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
-        System.out.println("paintComponent");
-        System.out.println();
+        super.paintComponent(g);
         int itemWidth = (this.getWidth() - MARGIN * 2) / percentPerOption.size();
         int yAxisStart = this.getHeight() - MARGIN;
         //yAxisEnd = MARGIN

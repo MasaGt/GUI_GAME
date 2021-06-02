@@ -57,11 +57,6 @@ public class AudiencePanel extends Panel implements Observer {
         buttonPanel.add(closeButton);
     }
 
-    @Override
-    public Object getParam() {
-        return null;
-    }
-
     /**
      * Add action lister to the close button.
      * @param controller 

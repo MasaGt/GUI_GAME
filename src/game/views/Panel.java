@@ -24,12 +24,6 @@ public abstract class Panel extends JPanel {
     }
     
     /**
-     * retrun parameter to controller.
-     * @return 
-     */
-    public abstract Object getParam();
-    
-    /**
      * set controller to a panel.
      * @param controller 
      */

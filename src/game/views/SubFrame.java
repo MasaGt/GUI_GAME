@@ -12,17 +12,14 @@ package game.views;
 public class SubFrame extends Frame {
 
     /**
-     * open this sub frame with specifying width and height.
-     * When the close button is clicked, this frame will be displosed.
-     * @param width
-     * @param height 
+     * open this frame which fit the content's size.
      */
     @Override
-    public void open(int width, int height) {
-        this.setSize(width, height);
+    public void open() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setResizable(true);
         this.pack();
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 }

@@ -22,9 +22,9 @@ import javax.swing.JPanel;
 public class TelephonePanel extends Panel implements Observer {
 
     //components
-    private JLabel label;
-    private JButton closeBtn;
-    private JPanel buttonPanel;
+    private final JLabel label;
+    private final JButton closeBtn;
+    private final JPanel buttonPanel;
     
 
     //seize variables
@@ -45,11 +45,6 @@ public class TelephonePanel extends Panel implements Observer {
         closeBtn = new JButton(Const.CLOSE_BUTTON);
         buttonPanel.add(closeBtn);
 
-    }
-
-    @Override
-    public Object getParam() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -74,7 +69,6 @@ public class TelephonePanel extends Panel implements Observer {
      * @param telText 
      */
     private void render(String telText) {
-        //enable lable to wrap text.
-        label.setText("<html>" + telText + "</html>");
+        label.setText(Const.wrapText(telText));
     }
 }

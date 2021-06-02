@@ -14,46 +14,57 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- *
+ * Register Panel for a new player.
  * @author Masaomi
  */
 public class RegisterPanel extends Panel {
     
-    private JLabel descLabel;
-    private JLabel reEnterLabel;
-    private JTextField name;
-    private JButton registerBtn;
+    private final JLabel descLabel;
+    private final JLabel reEnterLabel;
+    private final JTextField name;
+    private final JButton registerBtn;
     
-    private int dispWidth = 300;
-    private int dispHeight = 300;
-    private int lableWidth = 100; 
-    private int labelheight = 20;
+    private final int DISP_WIDTH = 350;
+    private final int DISP_HEIGHT = 350;
+    private final int LABEL_WIDTH = 200; 
+    private final int LABEL_HEIGHT = 50;
+    private final int MARGIN = 30;
     
     
     public RegisterPanel() {
         
         setLayout(null);
-        setPreferredSize(new Dimension(dispWidth, dispHeight));
-        descLabel = new JLabel("Register your name (only alphabets and numbers)");
-        descLabel.setSize(lableWidth, labelheight);
-        descLabel.setMaximumSize(new Dimension(dispWidth, labelheight));
-        descLabel.setLocation(100, 20);
+        setPreferredSize(new Dimension(DISP_WIDTH, DISP_HEIGHT));
+        
+        reEnterLabel = new JLabel(Const.wrapText("Invalid player's name"));
+        reEnterLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+        reEnterLabel.setForeground(Color.red);
+        reEnterLabel.setVisible(false);
+        reEnterLabel.setLocation(100, MARGIN);
+        this.add(reEnterLabel);
+        
+        descLabel = new JLabel(Const.wrapText("Register your name (only alphabets and numbers)"));
+        descLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+        descLabel.setLocation(100, reEnterLabel.getY() + reEnterLabel.getHeight());
         this.add(descLabel);
         
         name = new JTextField();
         name.setSize(100, 30);
-        name.setLocation(100, 50);
+        name.setLocation(125, descLabel.getY() + descLabel.getHeight() + MARGIN);
         this.add(name);
         
         registerBtn = new JButton(Const.REGISTER_BUTTON);
         registerBtn.setSize(100, 30);
-        registerBtn.setLocation(100, 80);
+        registerBtn.setLocation(125, name.getY() + name.getHeight() + MARGIN);
         this.add(registerBtn);
         this.revalidate();
         this.repaint();
     }
     
-    @Override
+    /**
+     * Return player's name.
+     * @return 
+     */
     public Object getParam() {
         return name.getText();
     }
@@ -63,14 +74,12 @@ public class RegisterPanel extends Panel {
         registerBtn.addActionListener(controller);
     }
     
+    /**
+     * If player's name is in valid, this function will be called.
+     * render a warning message.
+     */
     public void reEnterName() {
-        reEnterLabel = new JLabel("Invalid player's name");
-        reEnterLabel.setSize(lableWidth, labelheight);
-        reEnterLabel.setMaximumSize(new Dimension(dispWidth, labelheight));
-        reEnterLabel.setLocation(100, 0);
-        reEnterLabel.setForeground(Color.red);
-        this.add(reEnterLabel);
-        repaint();
+        reEnterLabel.setVisible(true);
     }
 
 }

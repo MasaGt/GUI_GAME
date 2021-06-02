@@ -8,7 +8,7 @@ package game.entity;
 import game.util.Const;
 
 /**
- *
+ * Game data info class.
  * @author Masaomi
  */
 public class GameData {
@@ -16,7 +16,6 @@ public class GameData {
     private Player player;
     private int round;
     private boolean isFaild;
-    private boolean isFinished;
 
     public GameData() {
         initGameData();
@@ -67,7 +66,6 @@ public class GameData {
     public void initGameData() {
         this.round = 1;
         this.isFaild = false;
-        this.isFinished = false;
     }
 
 }
