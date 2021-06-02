@@ -34,4 +34,13 @@ public class Const {
     public static final String TELEPHONE = "Telephone";
     public static final String FIFTY_FIFTY = "50/50";
     public static final String VALID_CHAR_FOR_PLAYER = "[0-9a-zA-Z]+";
+    
+    /**
+     * Return a text which can be wrapped.
+     * @param text
+     * @return 
+     */
+    public static String wrapText(String text) {
+        return "<html>" + text + "</html>";
+    }
 }
