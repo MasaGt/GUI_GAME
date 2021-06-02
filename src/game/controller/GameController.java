@@ -73,7 +73,7 @@ public class GameController implements ActionListener {
         Panel startPanel = new StartPanel(gameData.getPlayer());
         setController(startPanel);
         mainDisplay.setPanel(startPanel);
-        mainDisplay.open(500, 600);
+        mainDisplay.open();
     }
 
     /**
@@ -84,7 +84,7 @@ public class GameController implements ActionListener {
         Panel panel = new RegisterPanel();
         setController(panel);
         subDisplay.setPanel(panel);
-        subDisplay.open(300, 200);
+        subDisplay.open();
     }
 
     /**
@@ -124,10 +124,11 @@ public class GameController implements ActionListener {
     private void useLifeline(String selectedLifeline, Frame targetFrame) {
         List<Lifeline> lifelines = gameData.getPlayer().getLifelines();
         
-        //find which lifeline was selected.
+        //find which lifeline was selected and execute.
         for (Lifeline lifeline : lifelines) {
             if (selectedLifeline.equals(lifeline.getName())) {
-                QuizInfo currentQuizInfo = ((QuizManager) mainDisplay.getPanel().getParam()).getCurrentQuizInfo();
+                Object param = ((QuizPanel)mainDisplay.getPanel()).getParam();
+                QuizInfo currentQuizInfo = ((QuizManager)param).getCurrentQuizInfo();
                 lifeline.addObserver((Observer) targetFrame.getPanel());
                 lifeline.execute(currentQuizInfo);
                 break;
@@ -153,7 +154,7 @@ public class GameController implements ActionListener {
         service.getRanking();
 
         //show ranking in the sub display
-        subDisplay.open(300, 300);
+        subDisplay.open();
 
     }
 
@@ -195,7 +196,7 @@ public class GameController implements ActionListener {
         setController(AudPanel);
         subDisplay.setPanel(AudPanel);
         useLifeline(lifelineName, subDisplay);
-        subDisplay.open(600, 600);
+        subDisplay.open();
     }
 
     /**
@@ -207,7 +208,7 @@ public class GameController implements ActionListener {
         setController(telPanel);
         subDisplay.setPanel(telPanel);
         useLifeline(lifelineName, subDisplay);
-        subDisplay.open(300, 300);
+        subDisplay.open();
 
     }
 
@@ -225,6 +226,7 @@ public class GameController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        Object param;
         switch (e.getActionCommand()) {
             case Const.NEW_GAME_BUTTON:
                 showRegisterDislpay();
@@ -240,14 +242,16 @@ public class GameController implements ActionListener {
                 subDisplay.dispose();
                 break;
             case Const.REGISTER_BUTTON:
-                String name = (String) subDisplay.getPanel().getParam();
+                param = ((RegisterPanel)subDisplay.getPanel()).getParam();
+                String name = (String)param;
                 createPlayer(name.trim());
                 break;
             case Const.OPTION1_BUTTON:
             case Const.OPTION2_BUTTON:
             case Const.OPTION3_BUTTON:
             case Const.OPTION4_BUTTON:
-                int answerId = ((QuizManager) mainDisplay.getPanel().getParam()).getCurrentAnswer();
+                param = ((QuizPanel)mainDisplay.getPanel()).getParam();
+                int answerId = ((QuizManager)param).getCurrentAnswer();
                 int selectedId = Integer.parseInt(e.getActionCommand());
                 judge(answerId, selectedId);
                 break;
