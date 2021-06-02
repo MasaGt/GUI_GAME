@@ -36,9 +36,8 @@ public class JudgeService extends Observable {
     }
     
     /**
-     * If the result is false, finish the game. 
-     * Otherwise, continue.
-     * @param result result of checking player's answer,
+     * If the result is false, finish the game.Otherwise, continue.
+     * @param resultCorrect result of checking player's answer,
      * @param gameData 
      */
     public void judgeCompletion(boolean resultCorrect, GameData gameData) {
@@ -49,6 +48,5 @@ public class JudgeService extends Observable {
         
         setChanged();
         notifyObservers(gameData);
-        
     }
 }

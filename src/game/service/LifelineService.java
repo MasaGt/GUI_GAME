@@ -9,11 +9,16 @@ import game.entity.Lifeline;
 import game.entity.QuizInfo;
 
 /**
- *
+ * Business Logic about Lifeline.
  * @author Masaomi
  */
 public class LifelineService {
     
+    /**
+     * Execute the selected lifeline
+     * @param lifeline selected lifeline
+     * @param quiz quiz info
+     */
     public void execute(Lifeline lifeline, QuizInfo quiz) {
         lifeline.execute(quiz);
         lifeline.disable();
