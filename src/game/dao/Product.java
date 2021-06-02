@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 
 /**
- *
+ * Abstract Porduct class of Factory pattern.
  * @author Masaomi
  */
 public abstract class Product {

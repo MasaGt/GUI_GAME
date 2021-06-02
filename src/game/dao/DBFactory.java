@@ -6,11 +6,15 @@
 package game.dao;
 
 /**
- *
+ * Abstract Factory class of Factoy pattern.
  * @author Masaomi
  */
 public class DBFactory extends Factory{
 
+    /**
+     * produce a product to connect to the DB.
+     * @return 
+     */
     @Override
     protected Product getConnection() {
         return new DBProduct();
