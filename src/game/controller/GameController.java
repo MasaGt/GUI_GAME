@@ -70,6 +70,7 @@ public class GameController implements ActionListener {
      */
     public void showStartDisplay() {
         //set panel to the main display
+        initGame();
         Panel startPanel = new StartPanel(gameData.getPlayer());
         setController(startPanel);
         mainDisplay.setPanel(startPanel);
@@ -232,7 +233,6 @@ public class GameController implements ActionListener {
                 showRegisterDislpay();
                 break;
             case Const.CONTINUE_BUTTON:
-                initGame();
                 showQuizDisplay();
                 break;
             case Const.RANKING_BUTTON:

@@ -17,7 +17,6 @@ public class Main {
 
         GameController controller = new GameController();
         
-        controller.initGame();
         controller.showStartDisplay();
     }
 }
