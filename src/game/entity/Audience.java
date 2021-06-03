@@ -5,7 +5,9 @@
  */
 package game.entity;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -33,8 +35,9 @@ public class Audience extends Lifeline {
         }
 
         Random rand = new Random();
-
         List<OptionDto> options = quiz.getOption();
+        //key: option statement, value: percentage
+        Map<String, Integer> percentPerOption = new LinkedHashMap<>();
 
         int total = 100;
         //randForCorrect will be between 51 to 100 so that it should be  heighest.
@@ -46,23 +49,26 @@ public class Audience extends Lifeline {
 
         //allocate each parcentage to each option
         for (int i = 0; i < options.size(); i++) {
-            //index is for diaply purpose.
-            int index = i + 1;
+            OptionDto option = options.get(i);
 
             //check which otion is the correct answer
             if (quiz.getQuiz().getAnswer() == options.get(i).getId()) {
-                System.out.println(index + ": " + randForCorrect + "%");
+                percentPerOption.put(option.getStatement(), randForCorrect);
                 randForCorrect = 0;
             } else {
                 if (wrongCounter == wrongOptionsSize) {
-                    System.out.println(index + ": " + left + "%");
+                    percentPerOption.put(option.getStatement(), left);
                 } else {
-                    System.out.println(index + ": " + randForOther + "%");
+                    percentPerOption.put(option.getStatement(), randForOther);
                     left -= randForOther;
                     randForOther = rand.nextInt(left);
                 }
                 wrongCounter++;
             }
         }
+
+        setChanged();
+        notifyObservers(percentPerOption);
+        disable();
     }
 }

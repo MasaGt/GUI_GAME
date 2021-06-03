@@ -7,13 +7,9 @@ package game.dao;
 
 import game.entity.RankingDto;
 import game.util.Const;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,87 +17,85 @@ import java.util.logging.Logger;
 
 /**
  * Data Acess Object for a ranking file.
+ *
  * @author Masaomi
  */
-public class RankingDao implements IRankingDao {
-
-    private final String FILE_PATH = "./DataStore/ranking.txt";
+public class RankingDao extends DBAccessor implements IRankingDao {
 
     /**
-     * Read Rankng from Ranking File
+     * Read Rankng from Ranking Table
+     *
      * @return List of RankingDto
      */
     @Override
     public List<RankingDto> getAll() {
 
+        Product db = open();
         List<RankingDto> rankings = new ArrayList<>();
-        BufferedReader br = null;
-        
+
+        ResultSet rs = db.executeSelect("SELECT * FROM RANKING");
         try {
-            File file = new File(FILE_PATH);
-            br = new BufferedReader(new FileReader(file));
-
-            String line = "";
-
-            while ((line = br.readLine()) != null) {
-                String[] props = line.split(Const.DELIMITER);
-
-                RankingDto dto = new RankingDto();
-                dto.setRank(Integer.parseInt(props[0]));
-                dto.setPlayerId(Integer.parseInt(props[1]));
-                dto.setName(props[2]);
-                dto.setScore(Integer.parseInt(props[3]));
-                rankings.add(dto);
+            while (rs.next()) {
+                RankingDto rank = new RankingDto();
+                rank.setRank(rs.getInt("RANK"));
+                rank.setPlayerId(rs.getInt("PLAYER_ID"));
+                rank.setName(rs.getString("PLAYER_NAME"));
+                rank.setScore(rs.getInt("SCORE"));
+                rankings.add(rank);
             }
-        } catch (FileNotFoundException ex) {
+
+            return rankings;
+        } catch (SQLException ex) {
             Logger.getLogger(RankingDao.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("There is not a ranking file");
-            System.err.println("Reading ranking failed");
-        } catch (IOException ex) {
-            Logger.getLogger(RankingDao.class.getName()).log(Level.SEVERE, null, ex);
-            
         } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(RankingDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            close(db);
         }
 
         return rankings;
     }
 
     /**
-     * Register top10 Raning to Ranking File
+     * Register top10 Raning to Ranking table
+     *
      * @param ranking a list of sorted RankngDto
      */
     @Override
     public void register(List<RankingDto> ranking) {
-        FileOutputStream fos;
-        
+
+        Product db = open();
+        RankingDto rankItem = null;
+
+        Connection con = db.getConn();
         try {
-            fos = new FileOutputStream(FILE_PATH);
-            PrintWriter pw = new PrintWriter(fos);
+            con.setAutoCommit(false);
+
+            //remove all the records in the ranking table beforehand.
+            deleteAll(db);
             
+            //the following code might cause array index out of bounds exception when ranking.size() < Const.RANKING_RECORD_LIMIT
+            //for (int i = 0; i < Const.RANKING_RECORD_LIMIT; i++);
             for (int i = 0; i < ranking.size(); i++) {
-                //the following code might cause array index out pf bounds exception when ranking.size() < Const.RANKING_RECORD_LIMIT
-                //for (int i = 0; i < Const.RANKING_RECORD_LIMIT; i++);
                 if (i >= Const.RANKING_RECORD_LIMIT) {
                     break;
                 }
-                pw.println(ranking.get(i).getRank() + Const.DELIMITER 
-                        + ranking.get(i).getPlayerId()+ Const.DELIMITER 
-                        + ranking.get(i).getName()+ Const.DELIMITER 
-                        + ranking.get(i).getScore());
+                rankItem = ranking.get(i);
+                db.executeUpdate("INSERT INTO RANKING VALUES("
+                        + rankItem.getRank() + ","
+                        + rankItem.getPlayerId() + ", '"
+                        + rankItem.getName() + "',"
+                        + rankItem.getScore() + ")"
+                );
             }
-            pw.close();
             
-        } catch (FileNotFoundException ex) {
+            con.commit();
+        } catch (SQLException ex) {
             Logger.getLogger(RankingDao.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("There is not a ranking file");
-            System.err.println("Registering the ranking failed");
         }
+
+        close(db);
+    }
+
+    private void deleteAll(Product db) {
+        db.executeUpdate("DELETE FROM RANKING");
     }
 }

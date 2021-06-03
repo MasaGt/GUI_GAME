@@ -5,11 +5,12 @@
  */
 package game.entity;
 
+import game.util.Const;
 import game.util.Prize;
 import java.util.ArrayList;
 
 /**
- *
+ * Player information class
  * @author Masaomi
  */
 public class Player {
@@ -24,9 +25,9 @@ public class Player {
         this.id = id;
         this.score = Prize.Stage0.getPrize();
         this.lifelines = new ArrayList<>();
-        this.lifelines.add(new Audience("Audience"));
-        this.lifelines.add(new Telephone("Telephone"));
-        this.lifelines.add(new FiftyFifty("Fity-Fifty"));
+        this.lifelines.add(new Audience(Const.AUDIENCE));
+        this.lifelines.add(new Telephone(Const.TELEPHONE));
+        this.lifelines.add(new FiftyFifty(Const.FIFTY_FIFTY));
     }
 
     /**
@@ -63,5 +64,17 @@ public class Player {
      */
     public void setScore(int score) {
         this.score = score;
+    }
+    
+    /**
+     * rest score and lifelines.
+     * this will be called when a player continue the game
+     */
+    public void reset() {
+        this.score = 0;
+        
+        for (Lifeline lifeline : lifelines) {
+            lifeline.reset();
+        }
     }
 }

@@ -5,14 +5,16 @@
  */
 package game.entity;
 
+import java.util.Observable;
+
 /**
  * Super class of each lifeline.
  * @author Masaomi
  */
-public abstract class Lifeline {
+public abstract class Lifeline  extends Observable {
     
     private boolean isAvailable;
-    private String name;
+    private final String name;
     
     public Lifeline(String name) {
         this.isAvailable = true;
@@ -21,6 +23,9 @@ public abstract class Lifeline {
     
     abstract public void execute(QuizInfo quiz);
     
+    /**
+     * Make a lifeline unavailable.
+     */
     public void disable () {
         this.isAvailable = false;
     }
@@ -37,6 +42,13 @@ public abstract class Lifeline {
      */
     public boolean getIsAvailable() {
         return isAvailable;
+    }
+    
+    /**
+     * Reset a lifeline.
+     */
+    public void reset() {
+        this.isAvailable = true;
     }
     
     

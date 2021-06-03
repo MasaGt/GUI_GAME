@@ -12,6 +12,7 @@ import java.util.Set;
 
 /**
  * FiftyFifty Object.
+ *
  * @author Masaomi
  */
 public class FiftyFifty extends Lifeline {
@@ -22,36 +23,41 @@ public class FiftyFifty extends Lifeline {
 
     /**
      * Remove 2 wrong options.
-     * @param quiz 
+     *
+     * @param quiz
      */
     @Override
     public void execute(QuizInfo quiz) {
-        
+
         if (!this.getIsAvailable()) {
             return;
         }
-        
+
         List<OptionDto> options = quiz.getOption();
         int answer = quiz.getQuiz().getAnswer();
         //removeTargets hold option id.
-        Set<Integer> removeTargets = new HashSet<Integer>();
+        Set<Integer> removeTargets = new HashSet<>();
         Random rand = new Random();
         int randNum;
-        
+
         //generate 2 remove target id.
-        while(removeTargets.size() < 2) {
+        while (removeTargets.size() < 2) {
             //generate random number from 1 to 4.
             randNum = rand.nextInt(4) + 1;
             if (randNum != answer) {
                 removeTargets.add(randNum);
             }
         }
-        
+
         //remove 2 oprions form 4
-        for (int i = options.size() - 1; i >= 0; i--) { 
+        for (int i = options.size() - 1; i >= 0; i--) {
             if (removeTargets.contains(options.get(i).getId())) {
                 options.remove(i);
             }
         }
+        
+        setChanged();
+        notifyObservers(quiz);
+        disable();
     }
 }
