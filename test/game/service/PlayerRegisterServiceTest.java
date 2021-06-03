@@ -114,7 +114,7 @@ public class PlayerRegisterServiceTest {
      */
     public void validNameMix() {
         System.out.println("validateName");
-        String name = "B";
+        String name = "Sample1User99";
         PlayerRegisterService instance = new PlayerRegisterService();
         boolean expResult = true;
         boolean result = instance.validateName(name);
